@@ -4,6 +4,7 @@ Dashboard Generator - Creates interactive HTML visualization
 """
 
 import json
+import os
 from datetime import datetime
 
 
@@ -283,21 +284,19 @@ def generate_dashboard(data_path, output_path='dashboard.html'):
             }}
         }});
         
-        // Timeline Chart
+        // Timeline Chart - Stacked Bar
         const timelineData = data.timeline;
         const dates = timelineData.map(d => d.date);
-        
+
         // Create dataset for each topic
         const timelineDatasets = topics.map((topic, i) => ({{
             label: topic,
             data: timelineData.map(d => d.topics[topic] || 0),
-            borderColor: colors[i % colors.length],
-            backgroundColor: colors[i % colors.length] + '80',
-            fill: false,
+            backgroundColor: colors[i % colors.length],
         }}));
-        
+
         new Chart(document.getElementById('timelineChart'), {{
-            type: 'line',
+            type: 'bar',
             data: {{
                 labels: dates,
                 datasets: timelineDatasets
@@ -312,6 +311,7 @@ def generate_dashboard(data_path, output_path='dashboard.html'):
                 scales: {{
                     x: {{
                         display: true,
+                        stacked: true,
                         title: {{
                             display: true,
                             text: 'Date'
@@ -319,6 +319,7 @@ def generate_dashboard(data_path, output_path='dashboard.html'):
                     }},
                     y: {{
                         display: true,
+                        stacked: true,
                         title: {{
                             display: true,
                             text: 'Conversations'
@@ -360,8 +361,7 @@ def generate_dashboard(data_path, output_path='dashboard.html'):
 
 if __name__ == '__main__':
     import sys
-    import os
-    
+
     if len(sys.argv) < 2:
         print("Usage: python dashboard_generator.py <data.json>")
         sys.exit(1)
