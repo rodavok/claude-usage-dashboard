@@ -1,0 +1,2926 @@
+{
+  "summary": {
+    "total_conversations": 1312,
+    "total_messages": 1312
+  },
+  "by_topic": {
+    "Explained / Excel / Code": {
+      "count": 893,
+      "messages": 893,
+      "size": 17046025,
+      "estimated_tokens": 4261506,
+      "percentage": 68.0640243902439
+    },
+    "Python / Environment / Python Virtual": {
+      "count": 54,
+      "messages": 54,
+      "size": 593968,
+      "estimated_tokens": 148492,
+      "percentage": 4.115853658536586
+    },
+    "Linux / Gaming / Linux Gaming": {
+      "count": 44,
+      "messages": 44,
+      "size": 558040,
+      "estimated_tokens": 139510,
+      "percentage": 3.353658536585366
+    },
+    "Pandas / Dataframe / Column": {
+      "count": 80,
+      "messages": 80,
+      "size": 879497,
+      "estimated_tokens": 219874,
+      "percentage": 6.097560975609756
+    },
+    "Windows / Installing / Linux": {
+      "count": 30,
+      "messages": 30,
+      "size": 390937,
+      "estimated_tokens": 97734,
+      "percentage": 2.2865853658536586
+    },
+    "Linux Mint / Mint / Linux": {
+      "count": 35,
+      "messages": 35,
+      "size": 634944,
+      "estimated_tokens": 158736,
+      "percentage": 2.667682926829268
+    },
+    "Home / Access / Tailscale": {
+      "count": 47,
+      "messages": 47,
+      "size": 939175,
+      "estimated_tokens": 234793,
+      "percentage": 3.5823170731707314
+    },
+    "Uncategorized": {
+      "count": 61,
+      "messages": 61,
+      "size": 169030,
+      "estimated_tokens": 42257,
+      "percentage": 4.649390243902439
+    },
+    "Solving / Solving Equations / Equations": {
+      "count": 3,
+      "messages": 3,
+      "size": 16072,
+      "estimated_tokens": 4018,
+      "percentage": 0.22865853658536583
+    },
+    "Data / Recovering / Tableau": {
+      "count": 35,
+      "messages": 35,
+      "size": 706236,
+      "estimated_tokens": 176559,
+      "percentage": 2.667682926829268
+    },
+    "Synology / Nas / Backup": {
+      "count": 30,
+      "messages": 30,
+      "size": 450252,
+      "estimated_tokens": 112563,
+      "percentage": 2.2865853658536586
+    }
+  },
+  "timeline": [
+    {
+      "date": "2023-10-20",
+      "topics": {
+        "Explained / Excel / Code": 2
+      },
+      "total": 2
+    },
+    {
+      "date": "2023-10-24",
+      "topics": {
+        "Explained / Excel / Code": 2
+      },
+      "total": 2
+    },
+    {
+      "date": "2023-11-02",
+      "topics": {
+        "Solving / Solving Equations / Equations": 1,
+        "Explained / Excel / Code": 1
+      },
+      "total": 2
+    },
+    {
+      "date": "2023-11-05",
+      "topics": {
+        "Explained / Excel / Code": 2
+      },
+      "total": 2
+    },
+    {
+      "date": "2023-11-06",
+      "topics": {
+        "Explained / Excel / Code": 2
+      },
+      "total": 2
+    },
+    {
+      "date": "2023-11-08",
+      "topics": {
+        "Explained / Excel / Code": 3
+      },
+      "total": 3
+    },
+    {
+      "date": "2023-11-09",
+      "topics": {
+        "Explained / Excel / Code": 1
+      },
+      "total": 1
+    },
+    {
+      "date": "2023-11-13",
+      "topics": {
+        "Explained / Excel / Code": 3
+      },
+      "total": 3
+    },
+    {
+      "date": "2023-11-14",
+      "topics": {
+        "Explained / Excel / Code": 2
+      },
+      "total": 2
+    },
+    {
+      "date": "2023-11-16",
+      "topics": {
+        "Explained / Excel / Code": 1
+      },
+      "total": 1
+    },
+    {
+      "date": "2023-11-21",
+      "topics": {
+        "Uncategorized": 3,
+        "Explained / Excel / Code": 1
+      },
+      "total": 4
+    },
+    {
+      "date": "2023-11-22",
+      "topics": {
+        "Explained / Excel / Code": 4,
+        "Uncategorized": 4
+      },
+      "total": 8
+    },
+    {
+      "date": "2023-11-23",
+      "topics": {
+        "Explained / Excel / Code": 2
+      },
+      "total": 2
+    },
+    {
+      "date": "2023-11-24",
+      "topics": {
+        "Data / Recovering / Tableau": 1
+      },
+      "total": 1
+    },
+    {
+      "date": "2023-11-27",
+      "topics": {
+        "Explained / Excel / Code": 1
+      },
+      "total": 1
+    },
+    {
+      "date": "2023-11-29",
+      "topics": {
+        "Explained / Excel / Code": 1
+      },
+      "total": 1
+    },
+    {
+      "date": "2023-11-30",
+      "topics": {
+        "Python / Environment / Python Virtual": 1,
+        "Explained / Excel / Code": 1
+      },
+      "total": 2
+    },
+    {
+      "date": "2023-12-01",
+      "topics": {
+        "Data / Recovering / Tableau": 1,
+        "Pandas / Dataframe / Column": 1
+      },
+      "total": 2
+    },
+    {
+      "date": "2023-12-02",
+      "topics": {
+        "Explained / Excel / Code": 1
+      },
+      "total": 1
+    },
+    {
+      "date": "2023-12-03",
+      "topics": {
+        "Explained / Excel / Code": 5,
+        "Home / Access / Tailscale": 1,
+        "Python / Environment / Python Virtual": 1
+      },
+      "total": 7
+    },
+    {
+      "date": "2023-12-05",
+      "topics": {
+        "Explained / Excel / Code": 1
+      },
+      "total": 1
+    },
+    {
+      "date": "2023-12-06",
+      "topics": {
+        "Explained / Excel / Code": 2
+      },
+      "total": 2
+    },
+    {
+      "date": "2023-12-07",
+      "topics": {
+        "Explained / Excel / Code": 2
+      },
+      "total": 2
+    },
+    {
+      "date": "2023-12-11",
+      "topics": {
+        "Explained / Excel / Code": 1
+      },
+      "total": 1
+    },
+    {
+      "date": "2023-12-15",
+      "topics": {
+        "Solving / Solving Equations / Equations": 2
+      },
+      "total": 2
+    },
+    {
+      "date": "2023-12-17",
+      "topics": {
+        "Explained / Excel / Code": 2
+      },
+      "total": 2
+    },
+    {
+      "date": "2023-12-18",
+      "topics": {
+        "Explained / Excel / Code": 8,
+        "Data / Recovering / Tableau": 1
+      },
+      "total": 9
+    },
+    {
+      "date": "2023-12-20",
+      "topics": {
+        "Explained / Excel / Code": 1
+      },
+      "total": 1
+    },
+    {
+      "date": "2023-12-28",
+      "topics": {
+        "Explained / Excel / Code": 2
+      },
+      "total": 2
+    },
+    {
+      "date": "2023-12-29",
+      "topics": {
+        "Python / Environment / Python Virtual": 1
+      },
+      "total": 1
+    },
+    {
+      "date": "2024-01-04",
+      "topics": {
+        "Explained / Excel / Code": 1
+      },
+      "total": 1
+    },
+    {
+      "date": "2024-01-05",
+      "topics": {
+        "Explained / Excel / Code": 1
+      },
+      "total": 1
+    },
+    {
+      "date": "2024-01-14",
+      "topics": {
+        "Uncategorized": 3,
+        "Explained / Excel / Code": 2
+      },
+      "total": 5
+    },
+    {
+      "date": "2024-01-31",
+      "topics": {
+        "Explained / Excel / Code": 1
+      },
+      "total": 1
+    },
+    {
+      "date": "2024-02-08",
+      "topics": {
+        "Explained / Excel / Code": 1
+      },
+      "total": 1
+    },
+    {
+      "date": "2024-02-09",
+      "topics": {
+        "Explained / Excel / Code": 1
+      },
+      "total": 1
+    },
+    {
+      "date": "2024-02-10",
+      "topics": {
+        "Python / Environment / Python Virtual": 2,
+        "Explained / Excel / Code": 3
+      },
+      "total": 5
+    },
+    {
+      "date": "2024-02-11",
+      "topics": {
+        "Explained / Excel / Code": 3
+      },
+      "total": 3
+    },
+    {
+      "date": "2024-02-12",
+      "topics": {
+        "Python / Environment / Python Virtual": 1
+      },
+      "total": 1
+    },
+    {
+      "date": "2024-02-13",
+      "topics": {
+        "Python / Environment / Python Virtual": 1
+      },
+      "total": 1
+    },
+    {
+      "date": "2024-02-20",
+      "topics": {
+        "Explained / Excel / Code": 2
+      },
+      "total": 2
+    },
+    {
+      "date": "2024-03-03",
+      "topics": {
+        "Python / Environment / Python Virtual": 3,
+        "Linux / Gaming / Linux Gaming": 1
+      },
+      "total": 4
+    },
+    {
+      "date": "2024-03-05",
+      "topics": {
+        "Explained / Excel / Code": 1
+      },
+      "total": 1
+    },
+    {
+      "date": "2024-03-06",
+      "topics": {
+        "Data / Recovering / Tableau": 1
+      },
+      "total": 1
+    },
+    {
+      "date": "2024-03-15",
+      "topics": {
+        "Pandas / Dataframe / Column": 3
+      },
+      "total": 3
+    },
+    {
+      "date": "2024-03-17",
+      "topics": {
+        "Pandas / Dataframe / Column": 5,
+        "Explained / Excel / Code": 1
+      },
+      "total": 6
+    },
+    {
+      "date": "2024-03-20",
+      "topics": {
+        "Uncategorized": 1,
+        "Explained / Excel / Code": 3
+      },
+      "total": 4
+    },
+    {
+      "date": "2024-03-21",
+      "topics": {
+        "Explained / Excel / Code": 1
+      },
+      "total": 1
+    },
+    {
+      "date": "2024-03-22",
+      "topics": {
+        "Explained / Excel / Code": 4
+      },
+      "total": 4
+    },
+    {
+      "date": "2024-03-23",
+      "topics": {
+        "Explained / Excel / Code": 1
+      },
+      "total": 1
+    },
+    {
+      "date": "2024-04-01",
+      "topics": {
+        "Uncategorized": 3,
+        "Explained / Excel / Code": 1
+      },
+      "total": 4
+    },
+    {
+      "date": "2024-04-24",
+      "topics": {
+        "Data / Recovering / Tableau": 1
+      },
+      "total": 1
+    },
+    {
+      "date": "2024-05-02",
+      "topics": {
+        "Explained / Excel / Code": 1
+      },
+      "total": 1
+    },
+    {
+      "date": "2024-05-03",
+      "topics": {
+        "Linux / Gaming / Linux Gaming": 1
+      },
+      "total": 1
+    },
+    {
+      "date": "2024-05-09",
+      "topics": {
+        "Explained / Excel / Code": 1
+      },
+      "total": 1
+    },
+    {
+      "date": "2024-05-12",
+      "topics": {
+        "Explained / Excel / Code": 1
+      },
+      "total": 1
+    },
+    {
+      "date": "2024-05-18",
+      "topics": {
+        "Explained / Excel / Code": 1
+      },
+      "total": 1
+    },
+    {
+      "date": "2024-05-21",
+      "topics": {
+        "Explained / Excel / Code": 3
+      },
+      "total": 3
+    },
+    {
+      "date": "2024-05-22",
+      "topics": {
+        "Data / Recovering / Tableau": 1,
+        "Explained / Excel / Code": 1
+      },
+      "total": 2
+    },
+    {
+      "date": "2024-05-23",
+      "topics": {
+        "Explained / Excel / Code": 1,
+        "Data / Recovering / Tableau": 1
+      },
+      "total": 2
+    },
+    {
+      "date": "2024-06-02",
+      "topics": {
+        "Explained / Excel / Code": 1
+      },
+      "total": 1
+    },
+    {
+      "date": "2024-06-04",
+      "topics": {
+        "Explained / Excel / Code": 1
+      },
+      "total": 1
+    },
+    {
+      "date": "2024-07-10",
+      "topics": {
+        "Explained / Excel / Code": 1
+      },
+      "total": 1
+    },
+    {
+      "date": "2024-07-12",
+      "topics": {
+        "Explained / Excel / Code": 1
+      },
+      "total": 1
+    },
+    {
+      "date": "2024-07-26",
+      "topics": {
+        "Explained / Excel / Code": 1
+      },
+      "total": 1
+    },
+    {
+      "date": "2024-08-12",
+      "topics": {
+        "Explained / Excel / Code": 1
+      },
+      "total": 1
+    },
+    {
+      "date": "2024-08-22",
+      "topics": {
+        "Data / Recovering / Tableau": 1,
+        "Explained / Excel / Code": 2,
+        "Pandas / Dataframe / Column": 1
+      },
+      "total": 4
+    },
+    {
+      "date": "2024-08-23",
+      "topics": {
+        "Pandas / Dataframe / Column": 1
+      },
+      "total": 1
+    },
+    {
+      "date": "2024-08-27",
+      "topics": {
+        "Data / Recovering / Tableau": 1,
+        "Pandas / Dataframe / Column": 1
+      },
+      "total": 2
+    },
+    {
+      "date": "2024-09-06",
+      "topics": {
+        "Explained / Excel / Code": 1
+      },
+      "total": 1
+    },
+    {
+      "date": "2024-09-07",
+      "topics": {
+        "Explained / Excel / Code": 1
+      },
+      "total": 1
+    },
+    {
+      "date": "2024-09-08",
+      "topics": {
+        "Pandas / Dataframe / Column": 1
+      },
+      "total": 1
+    },
+    {
+      "date": "2024-09-17",
+      "topics": {
+        "Python / Environment / Python Virtual": 1,
+        "Explained / Excel / Code": 1
+      },
+      "total": 2
+    },
+    {
+      "date": "2024-09-20",
+      "topics": {
+        "Uncategorized": 2
+      },
+      "total": 2
+    },
+    {
+      "date": "2024-09-27",
+      "topics": {
+        "Explained / Excel / Code": 2,
+        "Python / Environment / Python Virtual": 1,
+        "Pandas / Dataframe / Column": 1
+      },
+      "total": 4
+    },
+    {
+      "date": "2024-10-11",
+      "topics": {
+        "Pandas / Dataframe / Column": 3
+      },
+      "total": 3
+    },
+    {
+      "date": "2024-11-11",
+      "topics": {
+        "Data / Recovering / Tableau": 1
+      },
+      "total": 1
+    },
+    {
+      "date": "2024-11-12",
+      "topics": {
+        "Data / Recovering / Tableau": 1
+      },
+      "total": 1
+    },
+    {
+      "date": "2024-11-13",
+      "topics": {
+        "Explained / Excel / Code": 2
+      },
+      "total": 2
+    },
+    {
+      "date": "2024-11-14",
+      "topics": {
+        "Explained / Excel / Code": 4,
+        "Data / Recovering / Tableau": 1
+      },
+      "total": 5
+    },
+    {
+      "date": "2024-11-16",
+      "topics": {
+        "Explained / Excel / Code": 2
+      },
+      "total": 2
+    },
+    {
+      "date": "2024-11-19",
+      "topics": {
+        "Explained / Excel / Code": 3,
+        "Pandas / Dataframe / Column": 2,
+        "Python / Environment / Python Virtual": 1
+      },
+      "total": 6
+    },
+    {
+      "date": "2024-11-20",
+      "topics": {
+        "Pandas / Dataframe / Column": 1,
+        "Explained / Excel / Code": 2
+      },
+      "total": 3
+    },
+    {
+      "date": "2024-11-21",
+      "topics": {
+        "Pandas / Dataframe / Column": 1
+      },
+      "total": 1
+    },
+    {
+      "date": "2024-11-23",
+      "topics": {
+        "Explained / Excel / Code": 1,
+        "Windows / Installing / Linux": 1
+      },
+      "total": 2
+    },
+    {
+      "date": "2024-11-25",
+      "topics": {
+        "Explained / Excel / Code": 2
+      },
+      "total": 2
+    },
+    {
+      "date": "2024-11-26",
+      "topics": {
+        "Pandas / Dataframe / Column": 4,
+        "Explained / Excel / Code": 2
+      },
+      "total": 6
+    },
+    {
+      "date": "2024-11-27",
+      "topics": {
+        "Home / Access / Tailscale": 1,
+        "Windows / Installing / Linux": 1
+      },
+      "total": 2
+    },
+    {
+      "date": "2024-12-02",
+      "topics": {
+        "Pandas / Dataframe / Column": 1
+      },
+      "total": 1
+    },
+    {
+      "date": "2024-12-03",
+      "topics": {
+        "Explained / Excel / Code": 1,
+        "Data / Recovering / Tableau": 1
+      },
+      "total": 2
+    },
+    {
+      "date": "2024-12-06",
+      "topics": {
+        "Explained / Excel / Code": 1
+      },
+      "total": 1
+    },
+    {
+      "date": "2024-12-11",
+      "topics": {
+        "Explained / Excel / Code": 1
+      },
+      "total": 1
+    },
+    {
+      "date": "2024-12-12",
+      "topics": {
+        "Explained / Excel / Code": 1
+      },
+      "total": 1
+    },
+    {
+      "date": "2024-12-13",
+      "topics": {
+        "Pandas / Dataframe / Column": 1
+      },
+      "total": 1
+    },
+    {
+      "date": "2024-12-15",
+      "topics": {
+        "Explained / Excel / Code": 1
+      },
+      "total": 1
+    },
+    {
+      "date": "2024-12-17",
+      "topics": {
+        "Python / Environment / Python Virtual": 2
+      },
+      "total": 2
+    },
+    {
+      "date": "2024-12-19",
+      "topics": {
+        "Explained / Excel / Code": 2,
+        "Pandas / Dataframe / Column": 1
+      },
+      "total": 3
+    },
+    {
+      "date": "2024-12-20",
+      "topics": {
+        "Python / Environment / Python Virtual": 1
+      },
+      "total": 1
+    },
+    {
+      "date": "2024-12-24",
+      "topics": {
+        "Explained / Excel / Code": 1
+      },
+      "total": 1
+    },
+    {
+      "date": "2024-12-27",
+      "topics": {
+        "Explained / Excel / Code": 1
+      },
+      "total": 1
+    },
+    {
+      "date": "2024-12-28",
+      "topics": {
+        "Windows / Installing / Linux": 1,
+        "Explained / Excel / Code": 1
+      },
+      "total": 2
+    },
+    {
+      "date": "2024-12-31",
+      "topics": {
+        "Explained / Excel / Code": 1
+      },
+      "total": 1
+    },
+    {
+      "date": "2025-01-01",
+      "topics": {
+        "Explained / Excel / Code": 1,
+        "Windows / Installing / Linux": 1
+      },
+      "total": 2
+    },
+    {
+      "date": "2025-01-02",
+      "topics": {
+        "Pandas / Dataframe / Column": 1,
+        "Explained / Excel / Code": 1
+      },
+      "total": 2
+    },
+    {
+      "date": "2025-01-07",
+      "topics": {
+        "Pandas / Dataframe / Column": 1
+      },
+      "total": 1
+    },
+    {
+      "date": "2025-01-08",
+      "topics": {
+        "Explained / Excel / Code": 1
+      },
+      "total": 1
+    },
+    {
+      "date": "2025-01-10",
+      "topics": {
+        "Pandas / Dataframe / Column": 1,
+        "Explained / Excel / Code": 1
+      },
+      "total": 2
+    },
+    {
+      "date": "2025-01-27",
+      "topics": {
+        "Explained / Excel / Code": 1
+      },
+      "total": 1
+    },
+    {
+      "date": "2025-01-28",
+      "topics": {
+        "Explained / Excel / Code": 1
+      },
+      "total": 1
+    },
+    {
+      "date": "2025-01-29",
+      "topics": {
+        "Explained / Excel / Code": 2
+      },
+      "total": 2
+    },
+    {
+      "date": "2025-01-31",
+      "topics": {
+        "Explained / Excel / Code": 1
+      },
+      "total": 1
+    },
+    {
+      "date": "2025-02-02",
+      "topics": {
+        "Synology / Nas / Backup": 3
+      },
+      "total": 3
+    },
+    {
+      "date": "2025-02-04",
+      "topics": {
+        "Explained / Excel / Code": 1
+      },
+      "total": 1
+    },
+    {
+      "date": "2025-02-05",
+      "topics": {
+        "Explained / Excel / Code": 1
+      },
+      "total": 1
+    },
+    {
+      "date": "2025-02-07",
+      "topics": {
+        "Explained / Excel / Code": 2
+      },
+      "total": 2
+    },
+    {
+      "date": "2025-02-08",
+      "topics": {
+        "Synology / Nas / Backup": 2,
+        "Explained / Excel / Code": 2
+      },
+      "total": 4
+    },
+    {
+      "date": "2025-02-10",
+      "topics": {
+        "Explained / Excel / Code": 2,
+        "Pandas / Dataframe / Column": 1,
+        "Windows / Installing / Linux": 1
+      },
+      "total": 4
+    },
+    {
+      "date": "2025-02-13",
+      "topics": {
+        "Explained / Excel / Code": 1
+      },
+      "total": 1
+    },
+    {
+      "date": "2025-02-14",
+      "topics": {
+        "Explained / Excel / Code": 2
+      },
+      "total": 2
+    },
+    {
+      "date": "2025-02-16",
+      "topics": {
+        "Explained / Excel / Code": 2
+      },
+      "total": 2
+    },
+    {
+      "date": "2025-02-20",
+      "topics": {
+        "Uncategorized": 3,
+        "Explained / Excel / Code": 1
+      },
+      "total": 4
+    },
+    {
+      "date": "2025-02-21",
+      "topics": {
+        "Windows / Installing / Linux": 1,
+        "Explained / Excel / Code": 2
+      },
+      "total": 3
+    },
+    {
+      "date": "2025-02-22",
+      "topics": {
+        "Explained / Excel / Code": 1
+      },
+      "total": 1
+    },
+    {
+      "date": "2025-02-25",
+      "topics": {
+        "Explained / Excel / Code": 3
+      },
+      "total": 3
+    },
+    {
+      "date": "2025-03-02",
+      "topics": {
+        "Explained / Excel / Code": 3
+      },
+      "total": 3
+    },
+    {
+      "date": "2025-03-03",
+      "topics": {
+        "Explained / Excel / Code": 1
+      },
+      "total": 1
+    },
+    {
+      "date": "2025-03-05",
+      "topics": {
+        "Explained / Excel / Code": 3
+      },
+      "total": 3
+    },
+    {
+      "date": "2025-03-06",
+      "topics": {
+        "Explained / Excel / Code": 1,
+        "Data / Recovering / Tableau": 1
+      },
+      "total": 2
+    },
+    {
+      "date": "2025-03-07",
+      "topics": {
+        "Explained / Excel / Code": 3
+      },
+      "total": 3
+    },
+    {
+      "date": "2025-03-09",
+      "topics": {
+        "Explained / Excel / Code": 2,
+        "Linux / Gaming / Linux Gaming": 1
+      },
+      "total": 3
+    },
+    {
+      "date": "2025-03-10",
+      "topics": {
+        "Explained / Excel / Code": 3
+      },
+      "total": 3
+    },
+    {
+      "date": "2025-03-14",
+      "topics": {
+        "Python / Environment / Python Virtual": 1,
+        "Explained / Excel / Code": 2,
+        "Pandas / Dataframe / Column": 1
+      },
+      "total": 4
+    },
+    {
+      "date": "2025-03-15",
+      "topics": {
+        "Data / Recovering / Tableau": 1,
+        "Explained / Excel / Code": 1
+      },
+      "total": 2
+    },
+    {
+      "date": "2025-03-20",
+      "topics": {
+        "Explained / Excel / Code": 2,
+        "Data / Recovering / Tableau": 2
+      },
+      "total": 4
+    },
+    {
+      "date": "2025-03-22",
+      "topics": {
+        "Explained / Excel / Code": 1
+      },
+      "total": 1
+    },
+    {
+      "date": "2025-03-24",
+      "topics": {
+        "Explained / Excel / Code": 1
+      },
+      "total": 1
+    },
+    {
+      "date": "2025-03-25",
+      "topics": {
+        "Explained / Excel / Code": 2,
+        "Pandas / Dataframe / Column": 4
+      },
+      "total": 6
+    },
+    {
+      "date": "2025-03-26",
+      "topics": {
+        "Explained / Excel / Code": 2
+      },
+      "total": 2
+    },
+    {
+      "date": "2025-03-27",
+      "topics": {
+        "Explained / Excel / Code": 1,
+        "Pandas / Dataframe / Column": 1
+      },
+      "total": 2
+    },
+    {
+      "date": "2025-03-28",
+      "topics": {
+        "Pandas / Dataframe / Column": 1
+      },
+      "total": 1
+    },
+    {
+      "date": "2025-03-31",
+      "topics": {
+        "Pandas / Dataframe / Column": 1
+      },
+      "total": 1
+    },
+    {
+      "date": "2025-04-01",
+      "topics": {
+        "Explained / Excel / Code": 2
+      },
+      "total": 2
+    },
+    {
+      "date": "2025-04-02",
+      "topics": {
+        "Data / Recovering / Tableau": 1
+      },
+      "total": 1
+    },
+    {
+      "date": "2025-04-03",
+      "topics": {
+        "Explained / Excel / Code": 1,
+        "Pandas / Dataframe / Column": 1
+      },
+      "total": 2
+    },
+    {
+      "date": "2025-04-05",
+      "topics": {
+        "Data / Recovering / Tableau": 1
+      },
+      "total": 1
+    },
+    {
+      "date": "2025-04-07",
+      "topics": {
+        "Explained / Excel / Code": 1,
+        "Data / Recovering / Tableau": 1
+      },
+      "total": 2
+    },
+    {
+      "date": "2025-04-08",
+      "topics": {
+        "Explained / Excel / Code": 1,
+        "Pandas / Dataframe / Column": 1
+      },
+      "total": 2
+    },
+    {
+      "date": "2025-04-10",
+      "topics": {
+        "Explained / Excel / Code": 1
+      },
+      "total": 1
+    },
+    {
+      "date": "2025-04-11",
+      "topics": {
+        "Pandas / Dataframe / Column": 1
+      },
+      "total": 1
+    },
+    {
+      "date": "2025-04-13",
+      "topics": {
+        "Pandas / Dataframe / Column": 1,
+        "Python / Environment / Python Virtual": 1
+      },
+      "total": 2
+    },
+    {
+      "date": "2025-04-14",
+      "topics": {
+        "Pandas / Dataframe / Column": 1,
+        "Explained / Excel / Code": 1
+      },
+      "total": 2
+    },
+    {
+      "date": "2025-04-15",
+      "topics": {
+        "Synology / Nas / Backup": 1
+      },
+      "total": 1
+    },
+    {
+      "date": "2025-04-16",
+      "topics": {
+        "Explained / Excel / Code": 2,
+        "Pandas / Dataframe / Column": 1
+      },
+      "total": 3
+    },
+    {
+      "date": "2025-04-17",
+      "topics": {
+        "Python / Environment / Python Virtual": 1
+      },
+      "total": 1
+    },
+    {
+      "date": "2025-04-21",
+      "topics": {
+        "Explained / Excel / Code": 1
+      },
+      "total": 1
+    },
+    {
+      "date": "2025-04-23",
+      "topics": {
+        "Explained / Excel / Code": 2,
+        "Windows / Installing / Linux": 1
+      },
+      "total": 3
+    },
+    {
+      "date": "2025-04-29",
+      "topics": {
+        "Python / Environment / Python Virtual": 1
+      },
+      "total": 1
+    },
+    {
+      "date": "2025-04-30",
+      "topics": {
+        "Python / Environment / Python Virtual": 1,
+        "Explained / Excel / Code": 1
+      },
+      "total": 2
+    },
+    {
+      "date": "2025-05-01",
+      "topics": {
+        "Explained / Excel / Code": 2
+      },
+      "total": 2
+    },
+    {
+      "date": "2025-05-02",
+      "topics": {
+        "Explained / Excel / Code": 1,
+        "Data / Recovering / Tableau": 1
+      },
+      "total": 2
+    },
+    {
+      "date": "2025-05-03",
+      "topics": {
+        "Explained / Excel / Code": 1
+      },
+      "total": 1
+    },
+    {
+      "date": "2025-05-05",
+      "topics": {
+        "Explained / Excel / Code": 4
+      },
+      "total": 4
+    },
+    {
+      "date": "2025-05-06",
+      "topics": {
+        "Explained / Excel / Code": 1,
+        "Pandas / Dataframe / Column": 1
+      },
+      "total": 2
+    },
+    {
+      "date": "2025-05-07",
+      "topics": {
+        "Python / Environment / Python Virtual": 1,
+        "Explained / Excel / Code": 2,
+        "Home / Access / Tailscale": 1,
+        "Pandas / Dataframe / Column": 1
+      },
+      "total": 5
+    },
+    {
+      "date": "2025-05-08",
+      "topics": {
+        "Explained / Excel / Code": 3,
+        "Windows / Installing / Linux": 2
+      },
+      "total": 5
+    },
+    {
+      "date": "2025-05-19",
+      "topics": {
+        "Explained / Excel / Code": 2
+      },
+      "total": 2
+    },
+    {
+      "date": "2025-05-20",
+      "topics": {
+        "Pandas / Dataframe / Column": 2,
+        "Explained / Excel / Code": 3
+      },
+      "total": 5
+    },
+    {
+      "date": "2025-05-22",
+      "topics": {
+        "Explained / Excel / Code": 2
+      },
+      "total": 2
+    },
+    {
+      "date": "2025-05-23",
+      "topics": {
+        "Pandas / Dataframe / Column": 1,
+        "Explained / Excel / Code": 2,
+        "Python / Environment / Python Virtual": 1
+      },
+      "total": 4
+    },
+    {
+      "date": "2025-05-25",
+      "topics": {
+        "Explained / Excel / Code": 1,
+        "Home / Access / Tailscale": 1
+      },
+      "total": 2
+    },
+    {
+      "date": "2025-05-26",
+      "topics": {
+        "Explained / Excel / Code": 1
+      },
+      "total": 1
+    },
+    {
+      "date": "2025-05-27",
+      "topics": {
+        "Explained / Excel / Code": 5
+      },
+      "total": 5
+    },
+    {
+      "date": "2025-05-28",
+      "topics": {
+        "Explained / Excel / Code": 2
+      },
+      "total": 2
+    },
+    {
+      "date": "2025-05-29",
+      "topics": {
+        "Explained / Excel / Code": 2
+      },
+      "total": 2
+    },
+    {
+      "date": "2025-05-30",
+      "topics": {
+        "Python / Environment / Python Virtual": 1
+      },
+      "total": 1
+    },
+    {
+      "date": "2025-06-02",
+      "topics": {
+        "Explained / Excel / Code": 1
+      },
+      "total": 1
+    },
+    {
+      "date": "2025-06-03",
+      "topics": {
+        "Explained / Excel / Code": 3
+      },
+      "total": 3
+    },
+    {
+      "date": "2025-06-04",
+      "topics": {
+        "Explained / Excel / Code": 1
+      },
+      "total": 1
+    },
+    {
+      "date": "2025-06-05",
+      "topics": {
+        "Explained / Excel / Code": 1
+      },
+      "total": 1
+    },
+    {
+      "date": "2025-06-10",
+      "topics": {
+        "Explained / Excel / Code": 4
+      },
+      "total": 4
+    },
+    {
+      "date": "2025-06-12",
+      "topics": {
+        "Explained / Excel / Code": 2
+      },
+      "total": 2
+    },
+    {
+      "date": "2025-06-13",
+      "topics": {
+        "Explained / Excel / Code": 2,
+        "Data / Recovering / Tableau": 1
+      },
+      "total": 3
+    },
+    {
+      "date": "2025-06-14",
+      "topics": {
+        "Explained / Excel / Code": 1
+      },
+      "total": 1
+    },
+    {
+      "date": "2025-06-15",
+      "topics": {
+        "Explained / Excel / Code": 1
+      },
+      "total": 1
+    },
+    {
+      "date": "2025-06-16",
+      "topics": {
+        "Windows / Installing / Linux": 1,
+        "Explained / Excel / Code": 2,
+        "Python / Environment / Python Virtual": 1
+      },
+      "total": 4
+    },
+    {
+      "date": "2025-06-17",
+      "topics": {
+        "Explained / Excel / Code": 1
+      },
+      "total": 1
+    },
+    {
+      "date": "2025-06-18",
+      "topics": {
+        "Home / Access / Tailscale": 1,
+        "Explained / Excel / Code": 7
+      },
+      "total": 8
+    },
+    {
+      "date": "2025-06-19",
+      "topics": {
+        "Explained / Excel / Code": 1,
+        "Uncategorized": 1
+      },
+      "total": 2
+    },
+    {
+      "date": "2025-06-20",
+      "topics": {
+        "Explained / Excel / Code": 3,
+        "Python / Environment / Python Virtual": 1
+      },
+      "total": 4
+    },
+    {
+      "date": "2025-06-22",
+      "topics": {
+        "Explained / Excel / Code": 1
+      },
+      "total": 1
+    },
+    {
+      "date": "2025-06-23",
+      "topics": {
+        "Explained / Excel / Code": 1
+      },
+      "total": 1
+    },
+    {
+      "date": "2025-06-24",
+      "topics": {
+        "Explained / Excel / Code": 1
+      },
+      "total": 1
+    },
+    {
+      "date": "2025-06-25",
+      "topics": {
+        "Explained / Excel / Code": 2
+      },
+      "total": 2
+    },
+    {
+      "date": "2025-06-29",
+      "topics": {
+        "Linux / Gaming / Linux Gaming": 1,
+        "Explained / Excel / Code": 6,
+        "Linux Mint / Mint / Linux": 1
+      },
+      "total": 8
+    },
+    {
+      "date": "2025-06-30",
+      "topics": {
+        "Explained / Excel / Code": 2,
+        "Home / Access / Tailscale": 3,
+        "Linux / Gaming / Linux Gaming": 1,
+        "Windows / Installing / Linux": 1
+      },
+      "total": 7
+    },
+    {
+      "date": "2025-07-01",
+      "topics": {
+        "Uncategorized": 2,
+        "Home / Access / Tailscale": 3,
+        "Linux / Gaming / Linux Gaming": 1,
+        "Explained / Excel / Code": 1
+      },
+      "total": 7
+    },
+    {
+      "date": "2025-07-02",
+      "topics": {
+        "Home / Access / Tailscale": 2,
+        "Linux / Gaming / Linux Gaming": 1,
+        "Python / Environment / Python Virtual": 1,
+        "Explained / Excel / Code": 1
+      },
+      "total": 5
+    },
+    {
+      "date": "2025-07-03",
+      "topics": {
+        "Explained / Excel / Code": 1,
+        "Linux Mint / Mint / Linux": 1
+      },
+      "total": 2
+    },
+    {
+      "date": "2025-07-07",
+      "topics": {
+        "Explained / Excel / Code": 4,
+        "Synology / Nas / Backup": 1,
+        "Pandas / Dataframe / Column": 3,
+        "Linux Mint / Mint / Linux": 1
+      },
+      "total": 9
+    },
+    {
+      "date": "2025-07-08",
+      "topics": {
+        "Explained / Excel / Code": 4
+      },
+      "total": 4
+    },
+    {
+      "date": "2025-07-09",
+      "topics": {
+        "Python / Environment / Python Virtual": 3,
+        "Explained / Excel / Code": 2,
+        "Linux Mint / Mint / Linux": 1
+      },
+      "total": 6
+    },
+    {
+      "date": "2025-07-10",
+      "topics": {
+        "Explained / Excel / Code": 3,
+        "Python / Environment / Python Virtual": 2,
+        "Pandas / Dataframe / Column": 2
+      },
+      "total": 7
+    },
+    {
+      "date": "2025-07-11",
+      "topics": {
+        "Linux Mint / Mint / Linux": 2,
+        "Explained / Excel / Code": 1
+      },
+      "total": 3
+    },
+    {
+      "date": "2025-07-12",
+      "topics": {
+        "Explained / Excel / Code": 1
+      },
+      "total": 1
+    },
+    {
+      "date": "2025-07-13",
+      "topics": {
+        "Linux Mint / Mint / Linux": 2,
+        "Linux / Gaming / Linux Gaming": 3,
+        "Synology / Nas / Backup": 2,
+        "Explained / Excel / Code": 4,
+        "Home / Access / Tailscale": 4
+      },
+      "total": 15
+    },
+    {
+      "date": "2025-07-14",
+      "topics": {
+        "Explained / Excel / Code": 4,
+        "Synology / Nas / Backup": 1,
+        "Pandas / Dataframe / Column": 1
+      },
+      "total": 6
+    },
+    {
+      "date": "2025-07-15",
+      "topics": {
+        "Explained / Excel / Code": 6,
+        "Pandas / Dataframe / Column": 1,
+        "Python / Environment / Python Virtual": 1
+      },
+      "total": 8
+    },
+    {
+      "date": "2025-07-16",
+      "topics": {
+        "Pandas / Dataframe / Column": 2,
+        "Python / Environment / Python Virtual": 2,
+        "Explained / Excel / Code": 3
+      },
+      "total": 7
+    },
+    {
+      "date": "2025-07-17",
+      "topics": {
+        "Pandas / Dataframe / Column": 1,
+        "Explained / Excel / Code": 3,
+        "Python / Environment / Python Virtual": 2
+      },
+      "total": 6
+    },
+    {
+      "date": "2025-07-18",
+      "topics": {
+        "Explained / Excel / Code": 3,
+        "Windows / Installing / Linux": 1
+      },
+      "total": 4
+    },
+    {
+      "date": "2025-07-19",
+      "topics": {
+        "Explained / Excel / Code": 2
+      },
+      "total": 2
+    },
+    {
+      "date": "2025-07-20",
+      "topics": {
+        "Python / Environment / Python Virtual": 1,
+        "Explained / Excel / Code": 2
+      },
+      "total": 3
+    },
+    {
+      "date": "2025-07-22",
+      "topics": {
+        "Linux Mint / Mint / Linux": 1
+      },
+      "total": 1
+    },
+    {
+      "date": "2025-07-23",
+      "topics": {
+        "Explained / Excel / Code": 2,
+        "Python / Environment / Python Virtual": 1
+      },
+      "total": 3
+    },
+    {
+      "date": "2025-07-24",
+      "topics": {
+        "Explained / Excel / Code": 2
+      },
+      "total": 2
+    },
+    {
+      "date": "2025-07-25",
+      "topics": {
+        "Pandas / Dataframe / Column": 1
+      },
+      "total": 1
+    },
+    {
+      "date": "2025-07-26",
+      "topics": {
+        "Explained / Excel / Code": 3
+      },
+      "total": 3
+    },
+    {
+      "date": "2025-07-27",
+      "topics": {
+        "Explained / Excel / Code": 4,
+        "Python / Environment / Python Virtual": 1,
+        "Pandas / Dataframe / Column": 1
+      },
+      "total": 6
+    },
+    {
+      "date": "2025-07-28",
+      "topics": {
+        "Python / Environment / Python Virtual": 1,
+        "Explained / Excel / Code": 2,
+        "Pandas / Dataframe / Column": 1
+      },
+      "total": 4
+    },
+    {
+      "date": "2025-07-29",
+      "topics": {
+        "Explained / Excel / Code": 2,
+        "Pandas / Dataframe / Column": 1
+      },
+      "total": 3
+    },
+    {
+      "date": "2025-07-30",
+      "topics": {
+        "Explained / Excel / Code": 1
+      },
+      "total": 1
+    },
+    {
+      "date": "2025-08-01",
+      "topics": {
+        "Pandas / Dataframe / Column": 1
+      },
+      "total": 1
+    },
+    {
+      "date": "2025-08-02",
+      "topics": {
+        "Explained / Excel / Code": 2
+      },
+      "total": 2
+    },
+    {
+      "date": "2025-08-05",
+      "topics": {
+        "Explained / Excel / Code": 1,
+        "Data / Recovering / Tableau": 1
+      },
+      "total": 2
+    },
+    {
+      "date": "2025-08-06",
+      "topics": {
+        "Pandas / Dataframe / Column": 1,
+        "Explained / Excel / Code": 3
+      },
+      "total": 4
+    },
+    {
+      "date": "2025-08-07",
+      "topics": {
+        "Explained / Excel / Code": 1
+      },
+      "total": 1
+    },
+    {
+      "date": "2025-08-08",
+      "topics": {
+        "Explained / Excel / Code": 6,
+        "Pandas / Dataframe / Column": 1,
+        "Home / Access / Tailscale": 1
+      },
+      "total": 8
+    },
+    {
+      "date": "2025-08-09",
+      "topics": {
+        "Explained / Excel / Code": 2,
+        "Home / Access / Tailscale": 1
+      },
+      "total": 3
+    },
+    {
+      "date": "2025-08-10",
+      "topics": {
+        "Explained / Excel / Code": 4
+      },
+      "total": 4
+    },
+    {
+      "date": "2025-08-11",
+      "topics": {
+        "Explained / Excel / Code": 3
+      },
+      "total": 3
+    },
+    {
+      "date": "2025-08-12",
+      "topics": {
+        "Python / Environment / Python Virtual": 1
+      },
+      "total": 1
+    },
+    {
+      "date": "2025-08-13",
+      "topics": {
+        "Explained / Excel / Code": 4
+      },
+      "total": 4
+    },
+    {
+      "date": "2025-08-14",
+      "topics": {
+        "Explained / Excel / Code": 3
+      },
+      "total": 3
+    },
+    {
+      "date": "2025-08-15",
+      "topics": {
+        "Explained / Excel / Code": 2,
+        "Python / Environment / Python Virtual": 1,
+        "Uncategorized": 1
+      },
+      "total": 4
+    },
+    {
+      "date": "2025-08-16",
+      "topics": {
+        "Explained / Excel / Code": 1
+      },
+      "total": 1
+    },
+    {
+      "date": "2025-08-17",
+      "topics": {
+        "Data / Recovering / Tableau": 2,
+        "Explained / Excel / Code": 3
+      },
+      "total": 5
+    },
+    {
+      "date": "2025-08-18",
+      "topics": {
+        "Explained / Excel / Code": 2,
+        "Synology / Nas / Backup": 1
+      },
+      "total": 3
+    },
+    {
+      "date": "2025-08-19",
+      "topics": {
+        "Explained / Excel / Code": 7,
+        "Pandas / Dataframe / Column": 2
+      },
+      "total": 9
+    },
+    {
+      "date": "2025-08-20",
+      "topics": {
+        "Explained / Excel / Code": 4,
+        "Uncategorized": 1
+      },
+      "total": 5
+    },
+    {
+      "date": "2025-08-21",
+      "topics": {
+        "Python / Environment / Python Virtual": 1,
+        "Pandas / Dataframe / Column": 1,
+        "Explained / Excel / Code": 3
+      },
+      "total": 5
+    },
+    {
+      "date": "2025-08-22",
+      "topics": {
+        "Explained / Excel / Code": 2
+      },
+      "total": 2
+    },
+    {
+      "date": "2025-08-23",
+      "topics": {
+        "Explained / Excel / Code": 2,
+        "Windows / Installing / Linux": 1,
+        "Linux / Gaming / Linux Gaming": 2,
+        "Home / Access / Tailscale": 1
+      },
+      "total": 6
+    },
+    {
+      "date": "2025-08-24",
+      "topics": {
+        "Explained / Excel / Code": 1,
+        "Home / Access / Tailscale": 1
+      },
+      "total": 2
+    },
+    {
+      "date": "2025-08-25",
+      "topics": {
+        "Linux / Gaming / Linux Gaming": 1,
+        "Home / Access / Tailscale": 2,
+        "Explained / Excel / Code": 2,
+        "Uncategorized": 1,
+        "Windows / Installing / Linux": 1
+      },
+      "total": 7
+    },
+    {
+      "date": "2025-08-26",
+      "topics": {
+        "Explained / Excel / Code": 9,
+        "Synology / Nas / Backup": 1,
+        "Uncategorized": 2,
+        "Home / Access / Tailscale": 1,
+        "Pandas / Dataframe / Column": 1,
+        "Linux / Gaming / Linux Gaming": 1
+      },
+      "total": 15
+    },
+    {
+      "date": "2025-08-27",
+      "topics": {
+        "Explained / Excel / Code": 5,
+        "Uncategorized": 2,
+        "Synology / Nas / Backup": 1,
+        "Windows / Installing / Linux": 1
+      },
+      "total": 9
+    },
+    {
+      "date": "2025-08-28",
+      "topics": {
+        "Explained / Excel / Code": 2
+      },
+      "total": 2
+    },
+    {
+      "date": "2025-08-29",
+      "topics": {
+        "Linux Mint / Mint / Linux": 1,
+        "Explained / Excel / Code": 4
+      },
+      "total": 5
+    },
+    {
+      "date": "2025-08-30",
+      "topics": {
+        "Explained / Excel / Code": 1
+      },
+      "total": 1
+    },
+    {
+      "date": "2025-08-31",
+      "topics": {
+        "Explained / Excel / Code": 6,
+        "Windows / Installing / Linux": 2,
+        "Synology / Nas / Backup": 1
+      },
+      "total": 9
+    },
+    {
+      "date": "2025-09-01",
+      "topics": {
+        "Explained / Excel / Code": 2,
+        "Synology / Nas / Backup": 1,
+        "Home / Access / Tailscale": 2
+      },
+      "total": 5
+    },
+    {
+      "date": "2025-09-02",
+      "topics": {
+        "Explained / Excel / Code": 6,
+        "Windows / Installing / Linux": 1,
+        "Python / Environment / Python Virtual": 1
+      },
+      "total": 8
+    },
+    {
+      "date": "2025-09-03",
+      "topics": {
+        "Linux / Gaming / Linux Gaming": 2,
+        "Explained / Excel / Code": 5,
+        "Synology / Nas / Backup": 1,
+        "Python / Environment / Python Virtual": 1
+      },
+      "total": 9
+    },
+    {
+      "date": "2025-09-04",
+      "topics": {
+        "Explained / Excel / Code": 5,
+        "Linux Mint / Mint / Linux": 2,
+        "Python / Environment / Python Virtual": 1
+      },
+      "total": 8
+    },
+    {
+      "date": "2025-09-05",
+      "topics": {
+        "Explained / Excel / Code": 2,
+        "Pandas / Dataframe / Column": 1,
+        "Synology / Nas / Backup": 1,
+        "Linux / Gaming / Linux Gaming": 1
+      },
+      "total": 5
+    },
+    {
+      "date": "2025-09-06",
+      "topics": {
+        "Explained / Excel / Code": 2
+      },
+      "total": 2
+    },
+    {
+      "date": "2025-09-07",
+      "topics": {
+        "Explained / Excel / Code": 6,
+        "Linux / Gaming / Linux Gaming": 1
+      },
+      "total": 7
+    },
+    {
+      "date": "2025-09-08",
+      "topics": {
+        "Linux / Gaming / Linux Gaming": 2,
+        "Explained / Excel / Code": 2,
+        "Linux Mint / Mint / Linux": 1
+      },
+      "total": 5
+    },
+    {
+      "date": "2025-09-09",
+      "topics": {
+        "Explained / Excel / Code": 1
+      },
+      "total": 1
+    },
+    {
+      "date": "2025-09-10",
+      "topics": {
+        "Linux Mint / Mint / Linux": 2,
+        "Synology / Nas / Backup": 3,
+        "Explained / Excel / Code": 4,
+        "Home / Access / Tailscale": 1
+      },
+      "total": 10
+    },
+    {
+      "date": "2025-09-11",
+      "topics": {
+        "Explained / Excel / Code": 8,
+        "Data / Recovering / Tableau": 1,
+        "Home / Access / Tailscale": 2,
+        "Linux / Gaming / Linux Gaming": 1
+      },
+      "total": 12
+    },
+    {
+      "date": "2025-09-12",
+      "topics": {
+        "Explained / Excel / Code": 4
+      },
+      "total": 4
+    },
+    {
+      "date": "2025-09-13",
+      "topics": {
+        "Explained / Excel / Code": 3,
+        "Uncategorized": 1,
+        "Home / Access / Tailscale": 1,
+        "Python / Environment / Python Virtual": 1
+      },
+      "total": 6
+    },
+    {
+      "date": "2025-09-14",
+      "topics": {
+        "Explained / Excel / Code": 3,
+        "Pandas / Dataframe / Column": 2
+      },
+      "total": 5
+    },
+    {
+      "date": "2025-09-15",
+      "topics": {
+        "Linux Mint / Mint / Linux": 4,
+        "Home / Access / Tailscale": 5,
+        "Windows / Installing / Linux": 2,
+        "Explained / Excel / Code": 10,
+        "Pandas / Dataframe / Column": 2,
+        "Linux / Gaming / Linux Gaming": 1,
+        "Synology / Nas / Backup": 1,
+        "Python / Environment / Python Virtual": 1
+      },
+      "total": 26
+    },
+    {
+      "date": "2025-09-16",
+      "topics": {
+        "Explained / Excel / Code": 7,
+        "Linux / Gaming / Linux Gaming": 1,
+        "Pandas / Dataframe / Column": 1,
+        "Home / Access / Tailscale": 1,
+        "Python / Environment / Python Virtual": 1
+      },
+      "total": 11
+    },
+    {
+      "date": "2025-09-17",
+      "topics": {
+        "Explained / Excel / Code": 4,
+        "Pandas / Dataframe / Column": 1,
+        "Linux Mint / Mint / Linux": 1
+      },
+      "total": 6
+    },
+    {
+      "date": "2025-09-19",
+      "topics": {
+        "Explained / Excel / Code": 4,
+        "Synology / Nas / Backup": 1,
+        "Home / Access / Tailscale": 1
+      },
+      "total": 6
+    },
+    {
+      "date": "2025-09-22",
+      "topics": {
+        "Explained / Excel / Code": 1,
+        "Synology / Nas / Backup": 1
+      },
+      "total": 2
+    },
+    {
+      "date": "2025-09-24",
+      "topics": {
+        "Explained / Excel / Code": 8,
+        "Synology / Nas / Backup": 4
+      },
+      "total": 12
+    },
+    {
+      "date": "2025-09-25",
+      "topics": {
+        "Explained / Excel / Code": 7,
+        "Linux / Gaming / Linux Gaming": 1,
+        "Linux Mint / Mint / Linux": 1
+      },
+      "total": 9
+    },
+    {
+      "date": "2025-09-26",
+      "topics": {
+        "Explained / Excel / Code": 2
+      },
+      "total": 2
+    },
+    {
+      "date": "2025-09-27",
+      "topics": {
+        "Explained / Excel / Code": 3,
+        "Linux / Gaming / Linux Gaming": 4,
+        "Data / Recovering / Tableau": 1,
+        "Linux Mint / Mint / Linux": 2
+      },
+      "total": 10
+    },
+    {
+      "date": "2025-09-28",
+      "topics": {
+        "Windows / Installing / Linux": 1,
+        "Linux / Gaming / Linux Gaming": 2
+      },
+      "total": 3
+    },
+    {
+      "date": "2025-09-29",
+      "topics": {
+        "Synology / Nas / Backup": 1,
+        "Explained / Excel / Code": 1,
+        "Linux / Gaming / Linux Gaming": 1,
+        "Windows / Installing / Linux": 1,
+        "Data / Recovering / Tableau": 1
+      },
+      "total": 5
+    },
+    {
+      "date": "2025-09-30",
+      "topics": {
+        "Synology / Nas / Backup": 1,
+        "Explained / Excel / Code": 2
+      },
+      "total": 3
+    },
+    {
+      "date": "2025-10-01",
+      "topics": {
+        "Linux / Gaming / Linux Gaming": 2,
+        "Explained / Excel / Code": 3
+      },
+      "total": 5
+    },
+    {
+      "date": "2025-10-02",
+      "topics": {
+        "Home / Access / Tailscale": 1,
+        "Explained / Excel / Code": 2
+      },
+      "total": 3
+    },
+    {
+      "date": "2025-10-03",
+      "topics": {
+        "Explained / Excel / Code": 8,
+        "Home / Access / Tailscale": 1
+      },
+      "total": 9
+    },
+    {
+      "date": "2025-10-04",
+      "topics": {
+        "Home / Access / Tailscale": 1
+      },
+      "total": 1
+    },
+    {
+      "date": "2025-10-05",
+      "topics": {
+        "Explained / Excel / Code": 4
+      },
+      "total": 4
+    },
+    {
+      "date": "2025-10-06",
+      "topics": {
+        "Explained / Excel / Code": 1
+      },
+      "total": 1
+    },
+    {
+      "date": "2025-10-07",
+      "topics": {
+        "Explained / Excel / Code": 2
+      },
+      "total": 2
+    },
+    {
+      "date": "2025-10-08",
+      "topics": {
+        "Explained / Excel / Code": 1
+      },
+      "total": 1
+    },
+    {
+      "date": "2025-10-10",
+      "topics": {
+        "Explained / Excel / Code": 8
+      },
+      "total": 8
+    },
+    {
+      "date": "2025-10-11",
+      "topics": {
+        "Explained / Excel / Code": 6
+      },
+      "total": 6
+    },
+    {
+      "date": "2025-10-12",
+      "topics": {
+        "Explained / Excel / Code": 6
+      },
+      "total": 6
+    },
+    {
+      "date": "2025-10-13",
+      "topics": {
+        "Explained / Excel / Code": 5,
+        "Data / Recovering / Tableau": 1
+      },
+      "total": 6
+    },
+    {
+      "date": "2025-10-14",
+      "topics": {
+        "Explained / Excel / Code": 7,
+        "Data / Recovering / Tableau": 1
+      },
+      "total": 8
+    },
+    {
+      "date": "2025-10-15",
+      "topics": {
+        "Explained / Excel / Code": 2
+      },
+      "total": 2
+    },
+    {
+      "date": "2025-10-16",
+      "topics": {
+        "Explained / Excel / Code": 3,
+        "Uncategorized": 1
+      },
+      "total": 4
+    },
+    {
+      "date": "2025-10-17",
+      "topics": {
+        "Explained / Excel / Code": 10
+      },
+      "total": 10
+    },
+    {
+      "date": "2025-10-18",
+      "topics": {
+        "Uncategorized": 1,
+        "Explained / Excel / Code": 2
+      },
+      "total": 3
+    },
+    {
+      "date": "2025-10-20",
+      "topics": {
+        "Explained / Excel / Code": 3
+      },
+      "total": 3
+    },
+    {
+      "date": "2025-10-21",
+      "topics": {
+        "Explained / Excel / Code": 2,
+        "Windows / Installing / Linux": 1,
+        "Linux / Gaming / Linux Gaming": 1
+      },
+      "total": 4
+    },
+    {
+      "date": "2025-10-22",
+      "topics": {
+        "Linux Mint / Mint / Linux": 1
+      },
+      "total": 1
+    },
+    {
+      "date": "2025-10-23",
+      "topics": {
+        "Explained / Excel / Code": 7,
+        "Linux / Gaming / Linux Gaming": 2
+      },
+      "total": 9
+    },
+    {
+      "date": "2025-10-24",
+      "topics": {
+        "Linux Mint / Mint / Linux": 1,
+        "Explained / Excel / Code": 1
+      },
+      "total": 2
+    },
+    {
+      "date": "2025-10-25",
+      "topics": {
+        "Explained / Excel / Code": 1
+      },
+      "total": 1
+    },
+    {
+      "date": "2025-10-26",
+      "topics": {
+        "Explained / Excel / Code": 2,
+        "Uncategorized": 3
+      },
+      "total": 5
+    },
+    {
+      "date": "2025-10-27",
+      "topics": {
+        "Explained / Excel / Code": 1,
+        "Linux / Gaming / Linux Gaming": 2,
+        "Windows / Installing / Linux": 1,
+        "Home / Access / Tailscale": 1
+      },
+      "total": 5
+    },
+    {
+      "date": "2025-10-28",
+      "topics": {
+        "Explained / Excel / Code": 4,
+        "Data / Recovering / Tableau": 1
+      },
+      "total": 5
+    },
+    {
+      "date": "2025-10-29",
+      "topics": {
+        "Explained / Excel / Code": 8,
+        "Home / Access / Tailscale": 1,
+        "Linux Mint / Mint / Linux": 1
+      },
+      "total": 10
+    },
+    {
+      "date": "2025-10-30",
+      "topics": {
+        "Explained / Excel / Code": 5,
+        "Linux / Gaming / Linux Gaming": 1
+      },
+      "total": 6
+    },
+    {
+      "date": "2025-10-31",
+      "topics": {
+        "Explained / Excel / Code": 2
+      },
+      "total": 2
+    },
+    {
+      "date": "2025-11-01",
+      "topics": {
+        "Explained / Excel / Code": 1
+      },
+      "total": 1
+    },
+    {
+      "date": "2025-11-02",
+      "topics": {
+        "Explained / Excel / Code": 1
+      },
+      "total": 1
+    },
+    {
+      "date": "2025-11-03",
+      "topics": {
+        "Explained / Excel / Code": 8
+      },
+      "total": 8
+    },
+    {
+      "date": "2025-11-05",
+      "topics": {
+        "Explained / Excel / Code": 7,
+        "Linux / Gaming / Linux Gaming": 2,
+        "Synology / Nas / Backup": 1
+      },
+      "total": 10
+    },
+    {
+      "date": "2025-11-06",
+      "topics": {
+        "Uncategorized": 1,
+        "Explained / Excel / Code": 5,
+        "Linux Mint / Mint / Linux": 2
+      },
+      "total": 8
+    },
+    {
+      "date": "2025-11-07",
+      "topics": {
+        "Explained / Excel / Code": 2,
+        "Windows / Installing / Linux": 1
+      },
+      "total": 3
+    },
+    {
+      "date": "2025-11-08",
+      "topics": {
+        "Explained / Excel / Code": 5
+      },
+      "total": 5
+    },
+    {
+      "date": "2025-11-09",
+      "topics": {
+        "Explained / Excel / Code": 7,
+        "Linux Mint / Mint / Linux": 1
+      },
+      "total": 8
+    },
+    {
+      "date": "2025-11-10",
+      "topics": {
+        "Explained / Excel / Code": 8,
+        "Python / Environment / Python Virtual": 1,
+        "Uncategorized": 1,
+        "Data / Recovering / Tableau": 1
+      },
+      "total": 11
+    },
+    {
+      "date": "2025-11-11",
+      "topics": {
+        "Linux Mint / Mint / Linux": 1,
+        "Explained / Excel / Code": 4
+      },
+      "total": 5
+    },
+    {
+      "date": "2025-11-12",
+      "topics": {
+        "Explained / Excel / Code": 2,
+        "Uncategorized": 3
+      },
+      "total": 5
+    },
+    {
+      "date": "2025-11-13",
+      "topics": {
+        "Explained / Excel / Code": 5
+      },
+      "total": 5
+    },
+    {
+      "date": "2025-11-14",
+      "topics": {
+        "Explained / Excel / Code": 4
+      },
+      "total": 4
+    },
+    {
+      "date": "2025-11-15",
+      "topics": {
+        "Explained / Excel / Code": 5
+      },
+      "total": 5
+    },
+    {
+      "date": "2025-11-16",
+      "topics": {
+        "Explained / Excel / Code": 8
+      },
+      "total": 8
+    },
+    {
+      "date": "2025-11-17",
+      "topics": {
+        "Explained / Excel / Code": 7
+      },
+      "total": 7
+    },
+    {
+      "date": "2025-11-18",
+      "topics": {
+        "Explained / Excel / Code": 3
+      },
+      "total": 3
+    },
+    {
+      "date": "2025-11-19",
+      "topics": {
+        "Explained / Excel / Code": 4,
+        "Uncategorized": 1
+      },
+      "total": 5
+    },
+    {
+      "date": "2025-11-20",
+      "topics": {
+        "Explained / Excel / Code": 3
+      },
+      "total": 3
+    },
+    {
+      "date": "2025-11-21",
+      "topics": {
+        "Explained / Excel / Code": 4
+      },
+      "total": 4
+    },
+    {
+      "date": "2025-11-22",
+      "topics": {
+        "Explained / Excel / Code": 1
+      },
+      "total": 1
+    },
+    {
+      "date": "2025-11-23",
+      "topics": {
+        "Explained / Excel / Code": 4
+      },
+      "total": 4
+    },
+    {
+      "date": "2025-11-24",
+      "topics": {
+        "Windows / Installing / Linux": 2,
+        "Explained / Excel / Code": 2,
+        "Home / Access / Tailscale": 1
+      },
+      "total": 5
+    },
+    {
+      "date": "2025-11-25",
+      "topics": {
+        "Explained / Excel / Code": 7,
+        "Linux Mint / Mint / Linux": 2
+      },
+      "total": 9
+    },
+    {
+      "date": "2025-11-26",
+      "topics": {
+        "Explained / Excel / Code": 2,
+        "Data / Recovering / Tableau": 1
+      },
+      "total": 3
+    },
+    {
+      "date": "2025-11-27",
+      "topics": {
+        "Explained / Excel / Code": 7
+      },
+      "total": 7
+    },
+    {
+      "date": "2025-11-28",
+      "topics": {
+        "Explained / Excel / Code": 5
+      },
+      "total": 5
+    },
+    {
+      "date": "2025-11-29",
+      "topics": {
+        "Uncategorized": 1,
+        "Explained / Excel / Code": 1
+      },
+      "total": 2
+    },
+    {
+      "date": "2025-11-30",
+      "topics": {
+        "Explained / Excel / Code": 7
+      },
+      "total": 7
+    },
+    {
+      "date": "2025-12-01",
+      "topics": {
+        "Explained / Excel / Code": 7,
+        "Data / Recovering / Tableau": 2,
+        "Linux Mint / Mint / Linux": 1,
+        "Uncategorized": 1,
+        "Home / Access / Tailscale": 1
+      },
+      "total": 12
+    },
+    {
+      "date": "2025-12-02",
+      "topics": {
+        "Home / Access / Tailscale": 1,
+        "Explained / Excel / Code": 5
+      },
+      "total": 6
+    },
+    {
+      "date": "2025-12-03",
+      "topics": {
+        "Explained / Excel / Code": 5
+      },
+      "total": 5
+    },
+    {
+      "date": "2025-12-04",
+      "topics": {
+        "Explained / Excel / Code": 2
+      },
+      "total": 2
+    },
+    {
+      "date": "2025-12-05",
+      "topics": {
+        "Explained / Excel / Code": 3,
+        "Windows / Installing / Linux": 1,
+        "Linux / Gaming / Linux Gaming": 1
+      },
+      "total": 5
+    },
+    {
+      "date": "2025-12-06",
+      "topics": {
+        "Explained / Excel / Code": 6,
+        "Uncategorized": 1
+      },
+      "total": 7
+    },
+    {
+      "date": "2025-12-07",
+      "topics": {
+        "Explained / Excel / Code": 9
+      },
+      "total": 9
+    },
+    {
+      "date": "2025-12-08",
+      "topics": {
+        "Explained / Excel / Code": 3,
+        "Uncategorized": 2,
+        "Python / Environment / Python Virtual": 1
+      },
+      "total": 6
+    },
+    {
+      "date": "2025-12-09",
+      "topics": {
+        "Explained / Excel / Code": 7
+      },
+      "total": 7
+    },
+    {
+      "date": "2025-12-10",
+      "topics": {
+        "Uncategorized": 2,
+        "Explained / Excel / Code": 2
+      },
+      "total": 4
+    },
+    {
+      "date": "2025-12-11",
+      "topics": {
+        "Explained / Excel / Code": 1
+      },
+      "total": 1
+    },
+    {
+      "date": "2025-12-12",
+      "topics": {
+        "Explained / Excel / Code": 4
+      },
+      "total": 4
+    },
+    {
+      "date": "2025-12-13",
+      "topics": {
+        "Explained / Excel / Code": 4,
+        "Uncategorized": 1,
+        "Linux Mint / Mint / Linux": 1
+      },
+      "total": 6
+    },
+    {
+      "date": "2025-12-14",
+      "topics": {
+        "Linux / Gaming / Linux Gaming": 1
+      },
+      "total": 1
+    },
+    {
+      "date": "2025-12-15",
+      "topics": {
+        "Uncategorized": 1,
+        "Explained / Excel / Code": 5
+      },
+      "total": 6
+    },
+    {
+      "date": "2025-12-16",
+      "topics": {
+        "Explained / Excel / Code": 5
+      },
+      "total": 5
+    },
+    {
+      "date": "2025-12-17",
+      "topics": {
+        "Explained / Excel / Code": 1
+      },
+      "total": 1
+    },
+    {
+      "date": "2025-12-18",
+      "topics": {
+        "Explained / Excel / Code": 3
+      },
+      "total": 3
+    },
+    {
+      "date": "2025-12-19",
+      "topics": {
+        "Explained / Excel / Code": 1
+      },
+      "total": 1
+    },
+    {
+      "date": "2025-12-20",
+      "topics": {
+        "Explained / Excel / Code": 8,
+        "Python / Environment / Python Virtual": 1
+      },
+      "total": 9
+    },
+    {
+      "date": "2025-12-21",
+      "topics": {
+        "Explained / Excel / Code": 2
+      },
+      "total": 2
+    },
+    {
+      "date": "2025-12-22",
+      "topics": {
+        "Explained / Excel / Code": 5,
+        "Linux Mint / Mint / Linux": 1
+      },
+      "total": 6
+    },
+    {
+      "date": "2025-12-23",
+      "topics": {
+        "Explained / Excel / Code": 4,
+        "Linux / Gaming / Linux Gaming": 1
+      },
+      "total": 5
+    },
+    {
+      "date": "2025-12-24",
+      "topics": {
+        "Explained / Excel / Code": 2
+      },
+      "total": 2
+    },
+    {
+      "date": "2025-12-25",
+      "topics": {
+        "Explained / Excel / Code": 1
+      },
+      "total": 1
+    },
+    {
+      "date": "2025-12-26",
+      "topics": {
+        "Explained / Excel / Code": 8,
+        "Python / Environment / Python Virtual": 1,
+        "Pandas / Dataframe / Column": 1
+      },
+      "total": 10
+    },
+    {
+      "date": "2025-12-27",
+      "topics": {
+        "Explained / Excel / Code": 1
+      },
+      "total": 1
+    },
+    {
+      "date": "2025-12-28",
+      "topics": {
+        "Explained / Excel / Code": 2
+      },
+      "total": 2
+    },
+    {
+      "date": "2025-12-29",
+      "topics": {
+        "Explained / Excel / Code": 5
+      },
+      "total": 5
+    },
+    {
+      "date": "2025-12-30",
+      "topics": {
+        "Explained / Excel / Code": 5,
+        "Windows / Installing / Linux": 2
+      },
+      "total": 7
+    },
+    {
+      "date": "2025-12-31",
+      "topics": {
+        "Explained / Excel / Code": 10
+      },
+      "total": 10
+    },
+    {
+      "date": "2026-01-01",
+      "topics": {
+        "Home / Access / Tailscale": 2,
+        "Explained / Excel / Code": 1,
+        "Uncategorized": 1
+      },
+      "total": 4
+    },
+    {
+      "date": "2026-01-02",
+      "topics": {
+        "Uncategorized": 3
+      },
+      "total": 3
+    },
+    {
+      "date": "2026-01-03",
+      "topics": {
+        "Uncategorized": 4
+      },
+      "total": 4
+    },
+    {
+      "date": "2026-01-04",
+      "topics": {
+        "Uncategorized": 3,
+        "Explained / Excel / Code": 4
+      },
+      "total": 7
+    }
+  ]
+}
