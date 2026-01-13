@@ -61,7 +61,7 @@ class ConversationAnalyzer:
         text = ""
         if isinstance(conversation, dict):
             # Try common field names
-            for field in ['messages', 'content', 'history', 'chat']:
+            for field in ['messages', 'chat_messages', 'content', 'history', 'chat']:
                 if field in conversation:
                     if isinstance(conversation[field], list):
                         text = " ".join([str(m) for m in conversation[field]])
@@ -131,7 +131,7 @@ Conversation: {text}"""
         """Extract text content from a conversation for clustering"""
         text = ""
         if isinstance(conversation, dict):
-            for field in ['messages', 'content', 'history', 'chat']:
+            for field in ['messages', 'chat_messages', 'content', 'history', 'chat']:
                 if field in conversation:
                     if isinstance(conversation[field], list):
                         text = " ".join([str(m) for m in conversation[field]])
@@ -257,7 +257,7 @@ Conversation: {text}"""
     def count_messages(self, conversation):
         """Count messages in conversation"""
         if isinstance(conversation, dict):
-            for field in ['messages', 'history', 'content']:
+            for field in ['messages', 'chat_messages', 'history', 'content']:
                 if field in conversation and isinstance(conversation[field], list):
                     return len(conversation[field])
         return 1  # Default if structure unclear
@@ -366,6 +366,36 @@ Conversation: {text}"""
             busiest = max(sorted_dates, key=lambda x: sum(x[1].values()))
             print(f"Busiest day: {busiest[0]} ({sum(busiest[1].values())} conversations)")
     
+    def extract_title(self, conversation):
+        """Extract a title or summary from a conversation"""
+        if isinstance(conversation, dict):
+            # Check for explicit title/name fields
+            for field in ['title', 'name', 'subject', 'summary']:
+                if field in conversation and conversation[field]:
+                    return str(conversation[field])[:100]
+
+            # Try to get first user message as title
+            for msg_field in ['messages', 'chat_messages']:
+                if msg_field in conversation and isinstance(conversation[msg_field], list):
+                    for msg in conversation[msg_field]:
+                        if isinstance(msg, dict):
+                            role = msg.get('role', msg.get('type', ''))
+                            if role in ['user', 'human']:
+                                content = msg.get('content', msg.get('text', ''))
+                                if isinstance(content, str) and content.strip():
+                                    # Take first line or first 100 chars
+                                    first_line = content.strip().split('\n')[0]
+                                    return first_line[:100] + ('...' if len(first_line) > 100 else '')
+                                elif isinstance(content, list):
+                                    # Handle content blocks
+                                    for block in content:
+                                        if isinstance(block, dict) and block.get('type') == 'text':
+                                            text = block.get('text', '')
+                                            first_line = text.strip().split('\n')[0]
+                                            return first_line[:100] + ('...' if len(first_line) > 100 else '')
+
+        return "Untitled Conversation"
+
     def save_json_data(self, output_path):
         """Save processed data as JSON for visualization"""
         output_data = {
@@ -374,9 +404,10 @@ Conversation: {text}"""
                 'total_messages': self.stats['total_messages']
             },
             'by_topic': {},
-            'timeline': []
+            'timeline': [],
+            'conversations': []
         }
-        
+
         # Process topic data
         for topic, data in self.stats['by_topic'].items():
             output_data['by_topic'][topic] = {
@@ -386,7 +417,25 @@ Conversation: {text}"""
                 'estimated_tokens': self.estimate_tokens(data['total_size']),
                 'percentage': (data['count'] / self.stats['total_conversations'] * 100)
             }
-        
+
+            # Add individual conversations with metadata
+            for conv in data['conversations']:
+                conv_date = self.extract_date(conv)
+                output_data['conversations'].append({
+                    'title': self.extract_title(conv),
+                    'topic': topic,
+                    'date': conv_date.strftime('%Y-%m-%d') if conv_date else None,
+                    'messages': self.count_messages(conv),
+                    'size': self.calculate_size(conv),
+                    'estimated_tokens': self.estimate_tokens(self.calculate_size(conv))
+                })
+
+        # Sort conversations by date (most recent first)
+        output_data['conversations'].sort(
+            key=lambda x: x['date'] or '1970-01-01',
+            reverse=True
+        )
+
         # Process timeline data
         for date_str, topics in sorted(self.stats['by_date'].items()):
             output_data['timeline'].append({
@@ -394,10 +443,10 @@ Conversation: {text}"""
                 'topics': dict(topics),
                 'total': sum(topics.values())
             })
-        
+
         with open(output_path, 'w') as f:
             json.dump(output_data, f, indent=2)
-        
+
         print(f"\nData saved to: {output_path}")
         return output_path
 
