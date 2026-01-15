@@ -289,7 +289,7 @@ def generate_dashboard(data_path, output_path='dashboard.html'):
             </div>
             <div class="stat-card">
                 <h3>Topics Covered</h3>
-                <div class="value">{len(data['by_topic'])}</div>
+                <div class="value">{len(data['by_topic'])-1}</div>
             </div>
         </div>
         

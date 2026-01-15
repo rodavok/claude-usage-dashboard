@@ -263,6 +263,7 @@ Conversation: {text}"""
             self.stats['total_messages'] += msg_count
 
         print(f"\nAnalysis complete!")
+        self.stats['by_topic'][topic]['count'] -= 1
         return self.stats
     
     def estimate_tokens(self, text_size):
