@@ -55,51 +55,6 @@ class ConversationAnalyzer:
             return list(data.values())
         return data
     
-    def classify_topic_keyword(self, conversation):
-        """Classify topic using keyword matching"""
-        # Combine all text from the conversation
-        text = ""
-        if isinstance(conversation, dict):
-            # Try common field names
-            for field in ['messages', 'chat_messages', 'content', 'history', 'chat']:
-                if field in conversation:
-                    if isinstance(conversation[field], list):
-                        text = " ".join([str(m) for m in conversation[field]])
-                    else:
-                        text = str(conversation[field])
-                    break
-            
-            # Also check top-level text fields
-            if not text:
-                for key, value in conversation.items():
-                    if isinstance(value, str):
-                        text += " " + value
-        
-        text = text.lower()
-        
-        # Topic keywords (ordered by priority)
-        topics = {
-            'Coding/Development': ['code', 'python', 'javascript', 'function', 'bug', 'debug', 'script', 'programming', 'github', 'git', 'api', 'database', 'algorithm'],
-            'Data Analysis': ['data', 'analysis', 'pandas', 'csv', 'dataframe', 'statistics', 'visualization', 'chart', 'plot'],
-            'Writing': ['write', 'essay', 'article', 'blog', 'content', 'draft', 'edit', 'proofread', 'writing'],
-            'Research': ['research', 'paper', 'study', 'academic', 'literature', 'review', 'citation'],
-            'Learning': ['learn', 'explain', 'understand', 'how does', 'what is', 'tutorial', 'teach'],
-            'Creative': ['story', 'poem', 'creative', 'fiction', 'character', 'narrative', 'novel'],
-            'Business': ['business', 'marketing', 'strategy', 'revenue', 'customer', 'sales', 'presentation'],
-            'Technical Documentation': ['documentation', 'readme', 'docs', 'technical', 'specification'],
-            'System Administration': ['linux', 'server', 'configuration', 'setup', 'install', 'docker', 'deploy'],
-            'General Q&A': []  # Default catch-all
-        }
-        
-        scores = defaultdict(int)
-        for topic, keywords in topics.items():
-            for keyword in keywords:
-                scores[topic] += text.count(keyword)
-        
-        if max(scores.values(), default=0) > 0:
-            return max(scores, key=scores.get)
-        return 'General Q&A'
-    
     def classify_topic_llm(self, conversation):
         """Classify topic using Claude API (if available)"""
         if not HAS_ANTHROPIC:
@@ -163,11 +118,10 @@ Conversation: {text}"""
         text = re.sub(r'\s+', ' ', text)
         return text.strip()
 
-    def classify_topics_clustering(self, n_clusters=10):
+    def classify_topics_clustering(self, n_clusters=15):
         """Classify all conversations using TF-IDF + K-means clustering"""
         if not HAS_SKLEARN:
             print("sklearn not installed. Install with: pip install scikit-learn")
-            print("Falling back to keyword classification.")
             return None
 
         print(f"Extracting text from {len(self.conversations)} conversations...")
@@ -214,7 +168,7 @@ Conversation: {text}"""
             top_indices = centroid.argsort()[-5:][::-1]
             top_terms = [feature_names[i] for i in top_indices]
             # Use top 2-3 terms as cluster name
-            cluster_names[cluster_id] = " / ".join(top_terms[:3]).title()
+            cluster_names[cluster_id] = " / ".join(top_terms[:5]).title()
 
         # Map back to all conversations (including empty ones)
         result = {}
@@ -262,12 +216,12 @@ Conversation: {text}"""
                     return len(conversation[field])
         return 1  # Default if structure unclear
     
-    def analyze(self, use_llm=False, n_clusters=None):
+    def analyze(self, use_llm=False, n_clusters=15):
         """Run full analysis
 
         Args:
             use_llm: Use Claude API for classification
-            n_clusters: If set, use TF-IDF + K-means clustering with this many clusters
+            n_clusters: Use TF-IDF + K-means clustering with this many clusters
         """
         print(f"Analyzing {len(self.conversations)} conversations...")
 
@@ -275,6 +229,7 @@ Conversation: {text}"""
         cluster_topics = None
         if n_clusters is not None:
             cluster_topics = self.classify_topics_clustering(n_clusters)
+            print(cluster_topics)
             if cluster_topics is None:
                 print("Clustering failed, using keyword classification instead.")
 
@@ -283,12 +238,10 @@ Conversation: {text}"""
                 print(f"Progress: {i}/{len(self.conversations)}", end='\r')
 
             # Classify topic
-            if cluster_topics is not None:
-                topic = cluster_topics[i]
-            elif use_llm:
+            if use_llm:
                 topic = self.classify_topic_llm(conv)
             else:
-                topic = self.classify_topic_keyword(conv)
+                topic = cluster_topics[i]
 
             # Extract metrics
             date = self.extract_date(conv)
@@ -461,7 +414,7 @@ def main():
                        help='Output JSON file for visualization')
     parser.add_argument('--llm', action='store_true',
                        help='Use Claude API for topic classification (requires anthropic package)')
-    parser.add_argument('--clusters', type=int, default=None,
+    parser.add_argument('--clusters', type=int, default=15,
                        help='Use NLP clustering with N groups (requires scikit-learn). Overrides --llm.')
     parser.add_argument('--visualize', action='store_true',
                        help='Generate HTML dashboard')
