@@ -136,9 +136,11 @@ Conversation: {text}"""
             print(f"Reduced clusters to {n_clusters} (not enough conversations)")
 
         print(f"Vectorizing with TF-IDF...")
-        # Custom stop words including common JSON/code noise
+        # Custom stop words including common JSON/code noise and filler words
         extra_stops = {'true', 'false', 'null', 'none', 'type', 'content', 'role',
-                       'user', 'assistant', 'message', 'text', 'id', 'name', 'value'}
+                       'user', 'assistant', 'message', 'text', 'id', 'name', 'value',
+                       'like', 'just', 'actually', 'really', 'thing', 'things', 'want',
+                       'need', 'know', 'think', 'make', 'sure', 'going', 'also', 'well'}
         vectorizer = TfidfVectorizer(
             max_features=1000,
             stop_words=list(extra_stops) + list(TfidfVectorizer(stop_words='english').get_stop_words()),
@@ -263,7 +265,6 @@ Conversation: {text}"""
             self.stats['total_messages'] += msg_count
 
         print(f"\nAnalysis complete!")
-        self.stats['by_topic'][topic]['count'] -= 1
         return self.stats
     
     def estimate_tokens(self, text_size):
