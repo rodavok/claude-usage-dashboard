@@ -10,15 +10,21 @@ from datetime import datetime
 
 def generate_dashboard(data_path, output_path='dashboard.html'):
     """Generate interactive HTML dashboard"""
-    
+
     with open(data_path, 'r') as f:
         data = json.load(f)
-    
+
+    # Load Chart.js from local file for offline support
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    chartjs_path = os.path.join(script_dir, 'chartjs.min.js')
+    with open(chartjs_path, 'r') as f:
+        chartjs_code = f.read()
+
     html = f"""<!DOCTYPE html>
 <html>
 <head>
     <title>Claude Conversations Dashboard</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script>{chartjs_code}</script>
     <style>
         body {{
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -294,28 +300,28 @@ def generate_dashboard(data_path, output_path='dashboard.html'):
         </div>
         
         <div class="chart-container">
-            <h2>📈 Conversations by Topic</h2>
+            <h2>Conversations by Topic</h2>
             <div class="chart-wrapper">
                 <canvas id="topicPieChart"></canvas>
             </div>
         </div>
         
         <div class="chart-container">
-            <h2>💬 Messages by Topic</h2>
+            <h2>Messages by Topic</h2>
             <div class="chart-wrapper">
                 <canvas id="messagesBarChart"></canvas>
             </div>
         </div>
         
         <div class="chart-container">
-            <h2>🪙 Estimated Token Usage by Topic</h2>
+            <h2>Estimated Token Usage by Topic</h2>
             <div class="chart-wrapper">
                 <canvas id="tokensBarChart"></canvas>
             </div>
         </div>
         
         <div class="chart-container">
-            <h2>📅 Timeline: Conversations Over Time</h2>
+            <h2>Timeline</h2>
             <div class="chart-wrapper timeline">
                 <canvas id="timelineChart"></canvas>
             </div>
