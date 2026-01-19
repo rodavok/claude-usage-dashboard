@@ -309,6 +309,14 @@ def generate_dashboard(data_path, output_path='dashboard.html'):
                 <h3>Est. Total Cost (Sonnet)</h3>
                 <div class="value">${data['summary'].get('total_estimated_cost', 0):.2f}</div>
             </div>
+            <div class="stat-card">
+                <h3>Est. Energy (Wh)</h3>
+                <div class="value">{data['summary'].get('energy', {}).get('total_wh', 0):.1f}</div>
+            </div>
+            <div class="stat-card">
+                <h3>Phone Charges Equiv.</h3>
+                <div class="value">{data['summary'].get('energy', {}).get('equivalent_phone_charges', 0):.1f}</div>
+            </div>
         </div>
         
         <div class="chart-container">
@@ -331,7 +339,14 @@ def generate_dashboard(data_path, output_path='dashboard.html'):
                 <canvas id="tokensBarChart"></canvas>
             </div>
         </div>
-        
+
+        <div class="chart-container">
+            <h2>Estimated Energy Consumption by Topic (Wh)</h2>
+            <div class="chart-wrapper">
+                <canvas id="energyBarChart"></canvas>
+            </div>
+        </div>
+
         <div class="chart-container">
             <h2>Timeline</h2>
             <div class="chart-wrapper timeline">
@@ -352,6 +367,7 @@ def generate_dashboard(data_path, output_path='dashboard.html'):
                         <th>Size (KB)</th>
                         <th>Est. Tokens</th>
                         <th>Est. Cost</th>
+                        <th>Est. Energy (Wh)</th>
                     </tr>
                 </thead>
                 <tbody></tbody>
@@ -414,6 +430,7 @@ def generate_dashboard(data_path, output_path='dashboard.html'):
         const topicCounts = sortedTopics.map(([_, v]) => v.count);
         const topicMessages = sortedTopics.map(([_, v]) => v.messages);
         const topicTokens = sortedTopics.map(([_, v]) => v.estimated_tokens);
+        const topicEnergy = sortedTopics.map(([_, v]) => v.estimated_energy_wh || 0);
         
         // Pie Chart - Topic Distribution
         new Chart(document.getElementById('topicPieChart'), {{
@@ -508,7 +525,46 @@ def generate_dashboard(data_path, output_path='dashboard.html'):
                 }}
             }}
         }});
-        
+
+        // Bar Chart - Energy by Topic
+        new Chart(document.getElementById('energyBarChart'), {{
+            type: 'bar',
+            data: {{
+                labels: topics,
+                datasets: [{{
+                    label: 'Estimated Energy (Wh)',
+                    data: topicEnergy,
+                    backgroundColor: colors.slice(0, topics.length),
+                }}]
+            }},
+            options: {{
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {{
+                    y: {{
+                        beginAtZero: true,
+                        ticks: {{
+                            callback: function(value) {{
+                                return value.toFixed(2) + ' Wh';
+                            }}
+                        }}
+                    }}
+                }},
+                plugins: {{
+                    legend: {{ display: false }},
+                    tooltip: {{
+                        callbacks: {{
+                            label: function(context) {{
+                                const wh = context.parsed.y;
+                                const phoneCharges = (wh / 12).toFixed(2);
+                                return ['Energy: ' + wh.toFixed(2) + ' Wh', 'Phone charges: ' + phoneCharges];
+                            }}
+                        }}
+                    }}
+                }}
+            }}
+        }});
+
         // Timeline Chart - Stacked Bar
         const timelineData = data.timeline;
         const dates = timelineData.map(d => d.date);
@@ -573,6 +629,7 @@ def generate_dashboard(data_path, output_path='dashboard.html'):
                     <td>${{(stats.size / 1024).toFixed(1)}}</td>
                     <td>${{stats.estimated_tokens.toLocaleString()}}</td>
                     <td>${{stats.estimated_cost ? '$' + stats.estimated_cost.toFixed(2) : '-'}}</td>
+                    <td>${{stats.estimated_energy_wh ? stats.estimated_energy_wh.toFixed(2) : '-'}}</td>
                 `;
             }});
 
@@ -662,6 +719,10 @@ def generate_dashboard(data_path, output_path='dashboard.html'):
                             <div class="detail-item">
                                 <label>Est. Cost</label>
                                 <span>${{conv.estimated_cost ? '$' + conv.estimated_cost.toFixed(2) : '-'}}</span>
+                            </div>
+                            <div class="detail-item">
+                                <label>Est. Energy</label>
+                                <span>${{conv.estimated_energy_wh ? conv.estimated_energy_wh.toFixed(3) + ' Wh' : '-'}}</span>
                             </div>
                             <div class="detail-item">
                                 <label>Topic</label>
