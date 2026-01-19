@@ -1,36 +1,36 @@
 {
   "summary": {
     "total_projects": 3,
-    "total_conversations": 153,
-    "total_turns": 579,
+    "total_conversations": 171,
+    "total_turns": 647,
     "tokens": {
-      "input": 573660,
-      "output": 875748,
-      "cache_read": 652541187,
-      "cache_creation": 34570658,
-      "total": 1449408
+      "input": 630871,
+      "output": 878324,
+      "cache_read": 694125173,
+      "cache_creation": 37181110,
+      "total": 1509195
     },
-    "energy_wh": 4726.036875,
-    "energy_kwh": 4.726036875,
-    "phone_charges_equiv": 393.83640625,
-    "cost_estimate": 59.98499425
+    "energy_wh": 4854.648263888888,
+    "energy_kwh": 4.854648263888889,
+    "phone_charges_equiv": 404.5540219907407,
+    "cost_estimate": 60.52468175
   },
   "by_project": {
     "myCrystal": {
-      "conversation_count": 64,
-      "total_turns": 328,
+      "conversation_count": 74,
+      "total_turns": 366,
       "tokens": {
-        "input": 495014,
-        "output": 657415,
-        "cache_read": 609222299,
-        "cache_creation": 29051852,
-        "total": 1152429
+        "input": 550769,
+        "output": 659456,
+        "cache_read": 646218756,
+        "cache_creation": 31341268,
+        "total": 1210225
       },
-      "energy_wh": 3917.7463888888888,
-      "cost_estimate": 48.842279500000004,
-      "percentage": 79.51032421512784,
+      "energy_wh": 4037.453583333333,
+      "cost_estimate": 49.320002,
+      "percentage": 80.19010134541925,
       "first_date": "2025-12-31",
-      "last_date": "2026-01-18"
+      "last_date": "2026-01-19"
     },
     "movielens": {
       "conversation_count": 59,
@@ -44,28 +44,208 @@
       },
       "energy_wh": 614.9146111111111,
       "cost_estimate": 8.728786,
-      "percentage": 16.725863248995452,
+      "percentage": 16.06326551572196,
       "first_date": "2026-01-05",
       "last_date": "2026-01-12"
     },
     "claude_dashboard": {
-      "conversation_count": 30,
-      "total_turns": 81,
+      "conversation_count": 38,
+      "total_turns": 111,
       "tokens": {
-        "input": 23968,
-        "output": 30585,
-        "cache_read": 14584197,
-        "cache_creation": 1554047,
-        "total": 54553
+        "input": 25424,
+        "output": 31120,
+        "cache_read": 19171726,
+        "cache_creation": 1875083,
+        "total": 56544
       },
-      "energy_wh": 193.37587499999998,
-      "cost_estimate": 2.41392875,
-      "percentage": 3.7638125358767165,
+      "energy_wh": 202.28006944444442,
+      "cost_estimate": 2.47589375,
+      "percentage": 3.7466331388587957,
       "first_date": "2026-01-12",
       "last_date": "2026-01-19"
     }
   },
   "conversations": [
+    {
+      "project": "myCrystal",
+      "title": "the 4th stat page has been successfully added, and it can be navigated to, but there are only 3 p...",
+      "date": "2026-01-19",
+      "turns": 4,
+      "model_tier": "opus",
+      "primary_model": "claude-opus-4-5-20251101",
+      "tokens": {
+        "input": 150,
+        "output": 35,
+        "cache_read": 643154,
+        "cache_creation": 86041,
+        "total": 185
+      },
+      "energy_wh": 0.8273611111111111,
+      "cost_estimate": 0.004874999999999999,
+      "is_subagent": false
+    },
+    {
+      "project": "myCrystal",
+      "title": "Pokemon Menu Icon Palette ID Index Bug Fix",
+      "date": "2026-01-19",
+      "turns": 2,
+      "model_tier": "opus",
+      "primary_model": "claude-opus-4-5-20251101",
+      "tokens": {
+        "input": 6013,
+        "output": 396,
+        "cache_read": 9901024,
+        "cache_creation": 449661,
+        "total": 6409
+      },
+      "energy_wh": 28.66247222222222,
+      "cost_estimate": 0.119895,
+      "is_subagent": false
+    },
+    {
+      "project": "myCrystal",
+      "title": "menu_con_pals.asm defines what color each pokemon icon should be in the party menu.  i had implem...",
+      "date": "2026-01-19",
+      "turns": 4,
+      "model_tier": "opus",
+      "primary_model": "claude-opus-4-5-20251101",
+      "tokens": {
+        "input": 160,
+        "output": 37,
+        "cache_read": 551860,
+        "cache_creation": 76962,
+        "total": 197
+      },
+      "energy_wh": 0.8810277777777777,
+      "cost_estimate": 0.005175,
+      "is_subagent": false
+    },
+    {
+      "project": "myCrystal",
+      "title": "continue",
+      "date": "2026-01-19",
+      "turns": 6,
+      "model_tier": "opus",
+      "primary_model": "claude-opus-4-5-20251101",
+      "tokens": {
+        "input": 6197,
+        "output": 648,
+        "cache_read": 8985004,
+        "cache_creation": 349019,
+        "total": 6845
+      },
+      "energy_wh": 30.61236111111111,
+      "cost_estimate": 0.14155500000000001,
+      "is_subagent": false
+    },
+    {
+      "project": "myCrystal",
+      "title": "Fixed Missing 4th Stats Page Icon",
+      "date": "2026-01-19",
+      "turns": 7,
+      "model_tier": "opus",
+      "primary_model": "claude-opus-4-5-20251101",
+      "tokens": {
+        "input": 918,
+        "output": 244,
+        "cache_read": 5553038,
+        "cache_creation": 429296,
+        "total": 1162
+      },
+      "energy_wh": 5.196722222222221,
+      "cost_estimate": 0.03207,
+      "is_subagent": false
+    },
+    {
+      "project": "myCrystal",
+      "title": "Fix pokeball animation palette lookup bug",
+      "date": "2026-01-19",
+      "turns": 4,
+      "model_tier": "opus",
+      "primary_model": "claude-opus-4-5-20251101",
+      "tokens": {
+        "input": 8797,
+        "output": 128,
+        "cache_read": 1631295,
+        "cache_creation": 89318,
+        "total": 8925
+      },
+      "energy_wh": 39.91458333333333,
+      "cost_estimate": 0.141555,
+      "is_subagent": false
+    },
+    {
+      "project": "myCrystal",
+      "title": "<local-command-caveat>Caveat: The messages below were generated by the user while running local c...",
+      "date": "2026-01-19",
+      "turns": 8,
+      "model_tier": "opus",
+      "primary_model": "claude-opus-4-5-20251101",
+      "tokens": {
+        "input": 700,
+        "output": 179,
+        "cache_read": 3577315,
+        "cache_creation": 106859,
+        "total": 879
+      },
+      "energy_wh": 3.9310833333333335,
+      "cost_estimate": 0.023925000000000002,
+      "is_subagent": false
+    },
+    {
+      "project": "myCrystal",
+      "title": "Find all files related to pokeball throwing graphics and animations in battle. Look for:\n1. Pokeb...",
+      "date": "2026-01-19",
+      "turns": 1,
+      "model_tier": "haiku",
+      "primary_model": "claude-haiku-4-5-20251001",
+      "tokens": {
+        "input": 16346,
+        "output": 111,
+        "cache_read": 2377930,
+        "cache_creation": 254722,
+        "total": 16457
+      },
+      "energy_wh": 4.7999583333333335,
+      "cost_estimate": 0.00422525,
+      "is_subagent": true
+    },
+    {
+      "project": "myCrystal",
+      "title": "Search the codebase for the stats page system, particularly looking for:\n1. Any 4th stats page or...",
+      "date": "2026-01-19",
+      "turns": 1,
+      "model_tier": "haiku",
+      "primary_model": "claude-haiku-4-5-20251001",
+      "tokens": {
+        "input": 7988,
+        "output": 140,
+        "cache_read": 2971249,
+        "cache_creation": 240936,
+        "total": 8128
+      },
+      "energy_wh": 2.3706666666666667,
+      "cost_estimate": 0.002172,
+      "is_subagent": true
+    },
+    {
+      "project": "myCrystal",
+      "title": "Find the Pokemon Center healing script and the pokeball animation code used when Nurse Joy heals ...",
+      "date": "2026-01-19",
+      "turns": 1,
+      "model_tier": "haiku",
+      "primary_model": "claude-haiku-4-5-20251001",
+      "tokens": {
+        "input": 8486,
+        "output": 123,
+        "cache_read": 804588,
+        "cache_creation": 206602,
+        "total": 8609
+      },
+      "energy_wh": 2.510958333333333,
+      "cost_estimate": 0.0022752500000000004,
+      "is_subagent": true
+    },
     {
       "project": "claude_dashboard",
       "title": "Fixed JSON field mismatch for message counting",
@@ -86,20 +266,164 @@
     },
     {
       "project": "claude_dashboard",
+      "title": "<local-command-caveat>Caveat: The messages below were generated by the user while running local c...",
+      "date": "2026-01-19",
+      "turns": 4,
+      "model_tier": "opus",
+      "primary_model": "claude-opus-4-5-20251101",
+      "tokens": {
+        "input": 428,
+        "output": 146,
+        "cache_read": 1493422,
+        "cache_creation": 38028,
+        "total": 574
+      },
+      "energy_wh": 2.567055555555555,
+      "cost_estimate": 0.01737,
+      "is_subagent": false
+    },
+    {
+      "project": "claude_dashboard",
+      "title": "Reorder dashboard sections and format large numbers",
+      "date": "2026-01-19",
+      "turns": 4,
+      "model_tier": "opus",
+      "primary_model": "claude-opus-4-5-20251101",
+      "tokens": {
+        "input": 260,
+        "output": 102,
+        "cache_read": 799022,
+        "cache_creation": 29125,
+        "total": 362
+      },
+      "energy_wh": 1.6189444444444443,
+      "cost_estimate": 0.01155,
+      "is_subagent": false
+    },
+    {
+      "project": "claude_dashboard",
+      "title": "put the energy consumption section above the other overview stats. ",
+      "date": "2026-01-19",
+      "turns": 2,
+      "model_tier": "opus",
+      "primary_model": "claude-opus-4-5-20251101",
+      "tokens": {
+        "input": 240,
+        "output": 89,
+        "cache_read": 710674,
+        "cache_creation": 37140,
+        "total": 329
+      },
+      "energy_wh": 1.471361111111111,
+      "cost_estimate": 0.010275,
+      "is_subagent": false
+    },
+    {
+      "project": "claude_dashboard",
+      "title": "what is total turns",
+      "date": "2026-01-19",
+      "turns": 5,
+      "model_tier": "opus",
+      "primary_model": "claude-opus-4-5-20251101",
+      "tokens": {
+        "input": 132,
+        "output": 36,
+        "cache_read": 318126,
+        "cache_creation": 87172,
+        "total": 168
+      },
+      "energy_wh": 0.7513333333333332,
+      "cost_estimate": 0.00468,
+      "is_subagent": false
+    },
+    {
+      "project": "claude_dashboard",
+      "title": "Rename Total Turns to User Prompts",
+      "date": "2026-01-19",
+      "turns": 2,
+      "model_tier": "opus",
+      "primary_model": "claude-opus-4-5-20251101",
+      "tokens": {
+        "input": 120,
+        "output": 56,
+        "cache_read": 286066,
+        "cache_creation": 30224,
+        "total": 176
+      },
+      "energy_wh": 0.787111111111111,
+      "cost_estimate": 0.006,
+      "is_subagent": false
+    },
+    {
+      "project": "claude_dashboard",
       "title": "LLM Energy Consumption Dashboard with Token Estimates",
       "date": "2026-01-19",
       "turns": 2,
       "model_tier": "opus",
       "primary_model": "claude-opus-4-5-20251101",
       "tokens": {
-        "input": 5874,
-        "output": 122,
-        "cache_read": 2106419,
-        "cache_creation": 128858,
-        "total": 5996
+        "input": 5906,
+        "output": 126,
+        "cache_read": 2369271,
+        "cache_creation": 130738,
+        "total": 6032
       },
-      "energy_wh": 26.815444444444445,
-      "cost_estimate": 0.09726,
+      "energy_wh": 26.976444444444443,
+      "cost_estimate": 0.09804,
+      "is_subagent": false
+    },
+    {
+      "project": "claude_dashboard",
+      "title": "how do i generate teh dashboard?",
+      "date": "2026-01-19",
+      "turns": 4,
+      "model_tier": "opus",
+      "primary_model": "claude-opus-4-5-20251101",
+      "tokens": {
+        "input": 20,
+        "output": 16,
+        "cache_read": 37694,
+        "cache_creation": 2784,
+        "total": 36
+      },
+      "energy_wh": 0.161,
+      "cost_estimate": 0.0015,
+      "is_subagent": false
+    },
+    {
+      "project": "claude_dashboard",
+      "title": "Dashboard Generation CLI Command Help",
+      "date": "2026-01-19",
+      "turns": 5,
+      "model_tier": "opus",
+      "primary_model": "claude-opus-4-5-20251101",
+      "tokens": {
+        "input": 66,
+        "output": 34,
+        "cache_read": 140198,
+        "cache_creation": 28829,
+        "total": 100
+      },
+      "energy_wh": 0.44722222222222213,
+      "cost_estimate": 0.00354,
+      "is_subagent": false
+    },
+    {
+      "project": "claude_dashboard",
+      "title": "User Exited Claude Code Session",
+      "date": "2026-01-19",
+      "turns": 4,
+      "model_tier": "opus",
+      "primary_model": "claude-opus-4-5-20251101",
+      "tokens": {
+        "input": 158,
+        "output": 52,
+        "cache_read": 539475,
+        "cache_creation": 65854,
+        "total": 210
+      },
+      "energy_wh": 0.9391666666666665,
+      "cost_estimate": 0.0062699999999999995,
       "is_subagent": false
     },
     {
@@ -3022,6 +3346,17 @@
     },
     {
       "project": "myCrystal",
+      "title": "Find all files related to pokeball throwing graphics and animations in battle. Look for:\n1. Pokeb...",
+      "date": "2026-01-19",
+      "total_tokens": 16457,
+      "input_tokens": 16346,
+      "output_tokens": 111,
+      "model_tier": "haiku",
+      "energy_wh": 4.7999583333333335,
+      "cost_estimate": 0.00422525
+    },
+    {
+      "project": "myCrystal",
       "title": "Pokemon Crystal ROM Hack Move System Fix",
       "date": "2026-01-16",
       "total_tokens": 16303,
@@ -3030,17 +3365,6 @@
       "model_tier": "opus",
       "energy_wh": 72.91063888888888,
       "cost_estimate": 0.306525
-    },
-    {
-      "project": "myCrystal",
-      "title": "Added Will-O-Wisp status move to Pok\u00e9mon battle system",
-      "date": "2026-01-18",
-      "total_tokens": 16137,
-      "input_tokens": 15386,
-      "output_tokens": 751,
-      "model_tier": "opus",
-      "energy_wh": 72.16824999999999,
-      "cost_estimate": 0.287115
     }
   ]
 }
