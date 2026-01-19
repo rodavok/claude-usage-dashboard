@@ -89,11 +89,20 @@ def generate_claude_code_dashboard(data_path, output_path='claude_code_dashboard
         .tab-content.active {{
             display: block;
         }}
+        .overview-grid {{
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin: 20px 0;
+        }}
+        .stats-section {{
+            grid-column: span 2;
+        }}
         .stats {{
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            grid-template-columns: repeat(2, 1fr);
             gap: 16px;
-            margin: 20px 0;
+            height: 100%;
         }}
         .stat-card {{
             background: #1a1a2e;
@@ -319,11 +328,13 @@ def generate_claude_code_dashboard(data_path, output_path='claude_code_dashboard
             font-size: 12px;
         }}
         .energy-equivalents {{
+            grid-column: span 1;
             background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
             padding: 24px;
             border-radius: 12px;
             border: 1px solid #00cc00;
-            margin: 20px 0;
+            display: flex;
+            flex-direction: column;
         }}
         .energy-equivalents h2 {{
             color: #00cc00;
@@ -345,9 +356,10 @@ def generate_claude_code_dashboard(data_path, output_path='claude_code_dashboard
             margin-bottom: 16px;
         }}
         .equivalents-grid {{
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            flex: 1;
         }}
         .equiv-item {{
             background: rgba(0, 204, 0, 0.1);
@@ -391,11 +403,19 @@ def generate_claude_code_dashboard(data_path, output_path='claude_code_dashboard
             height: 12px;
             border-radius: 2px;
         }}
+        @media (max-width: 900px) {{
+            .overview-grid {{
+                grid-template-columns: 1fr;
+            }}
+            .stats-section, .energy-equivalents {{
+                grid-column: span 1;
+            }}
+        }}
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>&gt; Claude Code Usage Dashboard</h1>
+        <h1>Claude Code Usage Dashboard</h1>
 
         <div class="tabs">
             <button class="tab-btn active" onclick="switchTab('overview')">Overview</button>
@@ -406,49 +426,47 @@ def generate_claude_code_dashboard(data_path, output_path='claude_code_dashboard
 
         <!-- Overview Tab -->
         <div id="overview-tab" class="tab-content active">
-            <div class="stats">
-                <div class="stat-card">
-                    <h3>Projects</h3>
-                    <div class="value">{summary['total_projects']}</div>
+            <div class="overview-grid">
+                <div class="stats-section">
+                    <div class="stats">
+                        <div class="stat-card">
+                            <h3>Projects</h3>
+                            <div class="value">{summary['total_projects']}</div>
+                        </div>
+                        <div class="stat-card">
+                            <h3>User Prompts</h3>
+                            <div class="value">{format_large_number(summary['total_turns'])}</div>
+                        </div>
+                        <div class="stat-card">
+                            <h3>Total Tokens</h3>
+                            <div class="value">{format_large_number(tokens['total'])}</div>
+                        </div>
+                        <div class="stat-card">
+                            <h3>Input Tokens</h3>
+                            <div class="value">{format_large_number(tokens['input'])}</div>
+                            <div class="subvalue">{tokens['input']/tokens['total']*100:.1f}% of total</div>
+                        </div>
+                        <div class="stat-card">
+                            <h3>Output Tokens</h3>
+                            <div class="value">{format_large_number(tokens['output'])}</div>
+                            <div class="subvalue">{tokens['output']/tokens['total']*100:.1f}% of total</div>
+                        </div>
+                        <div class="stat-card">
+                            <h3>Cache Read</h3>
+                            <div class="value">{format_large_number(tokens['cache_read'])}</div>
+                            <div class="subvalue">Saved tokens from cache</div>
+                        </div>
+                        <div class="stat-card">
+                            <h3>Est. Energy</h3>
+                            <div class="value">{summary['energy_wh']:.1f} Wh</div>
+                        </div>
+                        <div class="stat-card">
+                            <h3>Est. Token Cost</h3>
+                            <div class="value">${summary['cost_estimate']:.2f}</div>
+                        </div>
+                    </div>
                 </div>
-                <div class="stat-card">
-                    <h3>Sessions</h3>
-                    <div class="value">{summary['total_conversations']}</div>
-                </div>
-                <div class="stat-card">
-                    <h3>Total Turns</h3>
-                    <div class="value">{format_large_number(summary['total_turns'])}</div>
-                </div>
-                <div class="stat-card">
-                    <h3>Total Tokens</h3>
-                    <div class="value">{format_large_number(tokens['total'])}</div>
-                </div>
-                <div class="stat-card">
-                    <h3>Input Tokens</h3>
-                    <div class="value">{format_large_number(tokens['input'])}</div>
-                    <div class="subvalue">{tokens['input']/tokens['total']*100:.1f}% of total</div>
-                </div>
-                <div class="stat-card">
-                    <h3>Output Tokens</h3>
-                    <div class="value">{format_large_number(tokens['output'])}</div>
-                    <div class="subvalue">{tokens['output']/tokens['total']*100:.1f}% of total</div>
-                </div>
-                <div class="stat-card">
-                    <h3>Cache Read</h3>
-                    <div class="value">{format_large_number(tokens['cache_read'])}</div>
-                    <div class="subvalue">Saved tokens from cache</div>
-                </div>
-                <div class="stat-card">
-                    <h3>Est. Energy</h3>
-                    <div class="value">{summary['energy_wh']:.1f} Wh</div>
-                </div>
-                <div class="stat-card">
-                    <h3>Est. Token Cost</h3>
-                    <div class="value">${summary['cost_estimate']:.2f}</div>
-                </div>
-            </div>
-
-            <div class="energy-equivalents">
+                <div class="energy-equivalents">
                 <h2>Energy Consumption</h2>
                 <div class="energy-total">{summary['energy_wh']:.1f} Wh</div>
                 <div class="energy-intro">That's as much energy as...</div>
@@ -475,6 +493,7 @@ def generate_claude_code_dashboard(data_path, output_path='claude_code_dashboard
                         </div>
                     </div>
                 </div>
+            </div>
             </div>
 
             <div class="chart-container">
@@ -514,7 +533,7 @@ def generate_claude_code_dashboard(data_path, output_path='claude_code_dashboard
                         <tr>
                             <th>Project</th>
                             <th>Sessions</th>
-                            <th>Turns</th>
+                            <th>User Prompts</th>
                             <th>Total Tokens</th>
                             <th>Input</th>
                             <th>Output</th>
@@ -946,7 +965,7 @@ def generate_claude_code_dashboard(data_path, output_path='claude_code_dashboard
                     <div class="conversation-details">
                         <div class="detail-grid">
                             <div class="detail-item">
-                                <label>Turns</label>
+                                <label>User Prompts</label>
                                 <span>${{conv.turns}}</span>
                             </div>
                             <div class="detail-item">
