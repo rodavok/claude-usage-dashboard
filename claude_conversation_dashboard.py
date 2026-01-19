@@ -270,6 +270,18 @@ Conversation: {text}"""
     def estimate_tokens(self, text_size):
         """Rough token estimation (1 token ≈ 4 characters)"""
         return text_size // 4
+
+    def estimate_cost(self, tokens, input_rate=3.0, output_rate=15.0):
+        """Estimate cost in USD based on token count.
+
+        Uses Sonnet rates by default:
+        - Input: $3/1M tokens
+        - Output: $15/1M tokens
+
+        Assumes ~30% input, 70% output based on typical conversation patterns.
+        """
+        blended_rate = 0.3 * input_rate + 0.7 * output_rate  # ~$11.4/1M
+        return (tokens / 1_000_000) * blended_rate
     
     def generate_report(self):
         """Generate text report"""
@@ -353,10 +365,19 @@ Conversation: {text}"""
 
     def save_json_data(self, output_path):
         """Save processed data as JSON for visualization"""
+        # Calculate totals for summary
+        total_tokens = sum(
+            self.estimate_tokens(data['total_size'])
+            for data in self.stats['by_topic'].values()
+        )
+        total_cost = self.estimate_cost(total_tokens)
+
         output_data = {
             'summary': {
                 'total_conversations': self.stats['total_conversations'],
-                'total_messages': self.stats['total_messages']
+                'total_messages': self.stats['total_messages'],
+                'total_estimated_tokens': total_tokens,
+                'total_estimated_cost': total_cost
             },
             'by_topic': {},
             'timeline': [],
@@ -365,24 +386,29 @@ Conversation: {text}"""
 
         # Process topic data
         for topic, data in self.stats['by_topic'].items():
+            topic_tokens = self.estimate_tokens(data['total_size'])
             output_data['by_topic'][topic] = {
                 'count': data['count'],
                 'messages': data['messages'],
                 'size': data['total_size'],
-                'estimated_tokens': self.estimate_tokens(data['total_size']),
+                'estimated_tokens': topic_tokens,
+                'estimated_cost': self.estimate_cost(topic_tokens),
                 'percentage': (data['count'] / self.stats['total_conversations'] * 100)
             }
 
             # Add individual conversations with metadata
             for conv in data['conversations']:
                 conv_date = self.extract_date(conv)
+                conv_size = self.calculate_size(conv)
+                conv_tokens = self.estimate_tokens(conv_size)
                 output_data['conversations'].append({
                     'title': self.extract_title(conv),
                     'topic': topic,
                     'date': conv_date.strftime('%Y-%m-%d') if conv_date else None,
                     'messages': self.count_messages(conv),
-                    'size': self.calculate_size(conv),
-                    'estimated_tokens': self.estimate_tokens(self.calculate_size(conv))
+                    'size': conv_size,
+                    'estimated_tokens': conv_tokens,
+                    'estimated_cost': self.estimate_cost(conv_tokens)
                 })
 
         # Sort conversations by date (most recent first)

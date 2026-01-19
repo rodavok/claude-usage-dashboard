@@ -297,6 +297,18 @@ def generate_dashboard(data_path, output_path='dashboard.html'):
                 <h3>Topics Covered</h3>
                 <div class="value">{len(data['by_topic'])-1}</div>
             </div>
+            <div class="stat-card">
+                <h3>Total Est. Tokens</h3>
+                <div class="value">{data['summary'].get('total_estimated_tokens', 0):,}</div>
+            </div>
+            <div class="stat-card">
+                <h3>Avg Tokens/Conv</h3>
+                <div class="value">{data['summary'].get('total_estimated_tokens', 0) // max(data['summary']['total_conversations'], 1):,}</div>
+            </div>
+            <div class="stat-card">
+                <h3>Est. Total Cost (Sonnet)</h3>
+                <div class="value">${data['summary'].get('total_estimated_cost', 0):.2f}</div>
+            </div>
         </div>
         
         <div class="chart-container">
@@ -339,6 +351,7 @@ def generate_dashboard(data_path, output_path='dashboard.html'):
                         <th>Avg Messages</th>
                         <th>Size (KB)</th>
                         <th>Est. Tokens</th>
+                        <th>Est. Cost</th>
                     </tr>
                 </thead>
                 <tbody></tbody>
@@ -559,6 +572,7 @@ def generate_dashboard(data_path, output_path='dashboard.html'):
                     <td>${{(stats.messages / stats.count).toFixed(1)}}</td>
                     <td>${{(stats.size / 1024).toFixed(1)}}</td>
                     <td>${{stats.estimated_tokens.toLocaleString()}}</td>
+                    <td>${{stats.estimated_cost ? '$' + stats.estimated_cost.toFixed(2) : '-'}}</td>
                 `;
             }});
 
@@ -644,6 +658,10 @@ def generate_dashboard(data_path, output_path='dashboard.html'):
                             <div class="detail-item">
                                 <label>Est. Tokens</label>
                                 <span>${{conv.estimated_tokens.toLocaleString()}}</span>
+                            </div>
+                            <div class="detail-item">
+                                <label>Est. Cost</label>
+                                <span>${{conv.estimated_cost ? '$' + conv.estimated_cost.toFixed(2) : '-'}}</span>
                             </div>
                             <div class="detail-item">
                                 <label>Topic</label>
