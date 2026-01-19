@@ -2,4 +2,5 @@ venv
 CLAUDE.md
 claude_code_data.json
 claude_code_dashboard.html
+conversation_data.json
 dashboard.html
