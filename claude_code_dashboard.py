@@ -9,6 +9,13 @@ import os
 from datetime import datetime
 
 
+def format_large_number(value):
+    """Format large numbers with M suffix for millions."""
+    if value >= 1_000_000:
+        return f"{value / 1_000_000:.1f} M"
+    return f"{value:,}"
+
+
 def generate_claude_code_dashboard(data_path, output_path='claude_code_dashboard.html'):
     """Generate interactive HTML dashboard for Claude Code usage."""
 
@@ -311,6 +318,63 @@ def generate_claude_code_dashboard(data_path, output_path='claude_code_dashboard
             padding: 20px;
             font-size: 12px;
         }}
+        .energy-equivalents {{
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            padding: 24px;
+            border-radius: 12px;
+            border: 1px solid #00cc00;
+            margin: 20px 0;
+        }}
+        .energy-equivalents h2 {{
+            color: #00cc00;
+            margin: 0 0 8px 0;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }}
+        .energy-total {{
+            font-size: 36px;
+            font-weight: bold;
+            color: #00cc00;
+            font-family: 'Source Code Pro', monospace;
+            margin-bottom: 16px;
+        }}
+        .energy-intro {{
+            color: #888;
+            font-size: 14px;
+            margin-bottom: 16px;
+        }}
+        .equivalents-grid {{
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+        }}
+        .equiv-item {{
+            background: rgba(0, 204, 0, 0.1);
+            padding: 16px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }}
+        .equiv-icon {{
+            font-size: 28px;
+            width: 40px;
+            text-align: center;
+        }}
+        .equiv-text {{
+            flex: 1;
+        }}
+        .equiv-value {{
+            font-size: 24px;
+            font-weight: bold;
+            color: #fff;
+            font-family: 'Source Code Pro', monospace;
+        }}
+        .equiv-label {{
+            font-size: 12px;
+            color: #888;
+        }}
         .legend {{
             display: flex;
             gap: 20px;
@@ -353,35 +417,63 @@ def generate_claude_code_dashboard(data_path, output_path='claude_code_dashboard
                 </div>
                 <div class="stat-card">
                     <h3>Total Turns</h3>
-                    <div class="value">{summary['total_turns']:,}</div>
+                    <div class="value">{format_large_number(summary['total_turns'])}</div>
                 </div>
                 <div class="stat-card">
                     <h3>Total Tokens</h3>
-                    <div class="value">{tokens['total']:,}</div>
+                    <div class="value">{format_large_number(tokens['total'])}</div>
                 </div>
                 <div class="stat-card">
                     <h3>Input Tokens</h3>
-                    <div class="value">{tokens['input']:,}</div>
+                    <div class="value">{format_large_number(tokens['input'])}</div>
                     <div class="subvalue">{tokens['input']/tokens['total']*100:.1f}% of total</div>
                 </div>
                 <div class="stat-card">
                     <h3>Output Tokens</h3>
-                    <div class="value">{tokens['output']:,}</div>
+                    <div class="value">{format_large_number(tokens['output'])}</div>
                     <div class="subvalue">{tokens['output']/tokens['total']*100:.1f}% of total</div>
                 </div>
                 <div class="stat-card">
                     <h3>Cache Read</h3>
-                    <div class="value">{tokens['cache_read']:,}</div>
+                    <div class="value">{format_large_number(tokens['cache_read'])}</div>
                     <div class="subvalue">Saved tokens from cache</div>
                 </div>
                 <div class="stat-card">
                     <h3>Est. Energy</h3>
                     <div class="value">{summary['energy_wh']:.1f} Wh</div>
-                    <div class="subvalue">{summary['phone_charges_equiv']:.1f} phone charges</div>
                 </div>
                 <div class="stat-card">
-                    <h3>Est. Cost</h3>
+                    <h3>Est. Token Cost</h3>
                     <div class="value">${summary['cost_estimate']:.2f}</div>
+                </div>
+            </div>
+
+            <div class="energy-equivalents">
+                <h2>Energy Consumption</h2>
+                <div class="energy-total">{summary['energy_wh']:.1f} Wh</div>
+                <div class="energy-intro">That's as much energy as...</div>
+                <div class="equivalents-grid">
+                    <div class="equiv-item">
+                        <div class="equiv-icon">🚗</div>
+                        <div class="equiv-text">
+                            <div class="equiv-value">{summary['energy_wh'] / 350:.2f}</div>
+                            <div class="equiv-label">miles in a Tesla Model X</div>
+                        </div>
+                    </div>
+                    <div class="equiv-item">
+                        <div class="equiv-icon">📱</div>
+                        <div class="equiv-text">
+                            <div class="equiv-value">{summary['energy_wh'] / 12:.1f}</div>
+                            <div class="equiv-label">smartphone charges</div>
+                        </div>
+                    </div>
+                    <div class="equiv-item">
+                        <div class="equiv-icon">🌱</div>
+                        <div class="equiv-text">
+                            <div class="equiv-value">{summary['energy_wh'] / 100:.1f}</div>
+                            <div class="equiv-label">hours on a 100W grow light</div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
