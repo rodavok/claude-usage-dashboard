@@ -24,6 +24,48 @@ except ImportError:
     HAS_SKLEARN = False
 
 
+# Energy consumption estimates (Joules per token) by model tier
+# Based on research from multiple sources - see ENERGY_ESTIMATES.md for details
+# These are approximate server-side only values; actual consumption varies by:
+# - Infrastructure efficiency (10-100x variance)
+# - Batch size and GPU utilization
+# - Context length (2x context = ~3x energy)
+# - Quantization (FP8 ~30% less than FP16)
+# Sources:
+#   - https://muxup.com/2026q1/per-query-energy-consumption-of-llms
+#   - https://arxiv.org/html/2512.03024v1 (TokenPowerBench)
+#   - https://llm-tracker.info/_TOORG/Power-Usage-and-Energy-Efficiency
+ENERGY_ESTIMATES = {
+    # Model tier: (joules_per_token, wh_per_1k_tokens)
+    'haiku': {
+        'j_per_token': 0.75,      # 0.5-1.0 J range, using midpoint
+        'wh_per_1k': 0.00021,     # 0.75 J * 1000 / 3600
+        'description': 'Small, fast model - minimal energy footprint'
+    },
+    'sonnet': {
+        'j_per_token': 3.0,       # 2-4 J range, similar to GPT-4o estimates
+        'wh_per_1k': 0.00083,     # 3.0 J * 1000 / 3600
+        'description': 'Mid-tier model - moderate energy consumption'
+    },
+    'opus': {
+        'j_per_token': 11.5,      # 8-15 J range, based on ~4 Wh/query reports
+        'wh_per_1k': 0.0032,      # 11.5 J * 1000 / 3600
+        'description': 'Large model - highest energy per token'
+    },
+    # Default for unknown/mixed usage (weighted toward Sonnet as most common)
+    'default': {
+        'j_per_token': 3.0,
+        'wh_per_1k': 0.00083,
+        'description': 'Default estimate (Sonnet-equivalent)'
+    }
+}
+
+# Data center PUE (Power Usage Effectiveness) multiplier
+# Accounts for cooling, networking, and other overhead
+# Good data centers: 1.1-1.2, Average: 1.4-1.6
+DEFAULT_PUE = 1.4
+
+
 class ConversationAnalyzer:
     def __init__(self, conversations_path):
         self.conversations_path = os.path.expanduser(conversations_path)
@@ -282,6 +324,46 @@ Conversation: {text}"""
         """
         blended_rate = 0.3 * input_rate + 0.7 * output_rate  # ~$11.4/1M
         return (tokens / 1_000_000) * blended_rate
+
+    def estimate_energy(self, tokens, model='default', include_pue=True):
+        """Estimate energy consumption in watt-hours based on token count.
+
+        Args:
+            tokens: Number of tokens
+            model: Model tier ('haiku', 'sonnet', 'opus', or 'default')
+            include_pue: Whether to include data center overhead (PUE multiplier)
+
+        Returns:
+            dict with energy metrics:
+                - wh: Watt-hours consumed
+                - kwh: Kilowatt-hours consumed
+                - j: Joules consumed
+                - equivalent_phone_charges: Energy in terms of phone charges (~12 Wh each)
+                - equivalent_led_bulb_hours: Hours a 10W LED bulb could run
+        """
+        estimates = ENERGY_ESTIMATES.get(model, ENERGY_ESTIMATES['default'])
+        j_per_token = estimates['j_per_token']
+
+        # Calculate base energy
+        joules = tokens * j_per_token
+        wh = joules / 3600
+
+        # Apply PUE if requested (accounts for cooling, etc.)
+        if include_pue:
+            wh *= DEFAULT_PUE
+            joules *= DEFAULT_PUE
+
+        kwh = wh / 1000
+
+        return {
+            'wh': wh,
+            'kwh': kwh,
+            'joules': joules,
+            'equivalent_phone_charges': wh / 12,  # ~12 Wh per phone charge
+            'equivalent_led_bulb_hours': wh / 10,  # 10W LED bulb
+            'model_tier': model,
+            'pue_applied': include_pue
+        }
     
     def generate_report(self):
         """Generate text report"""
@@ -363,21 +445,36 @@ Conversation: {text}"""
 
         return "Untitled Conversation"
 
-    def save_json_data(self, output_path):
-        """Save processed data as JSON for visualization"""
+    def save_json_data(self, output_path, model_tier='default'):
+        """Save processed data as JSON for visualization
+
+        Args:
+            output_path: Path to save JSON file
+            model_tier: Model tier for energy estimates ('haiku', 'sonnet', 'opus', 'default')
+        """
         # Calculate totals for summary
         total_tokens = sum(
             self.estimate_tokens(data['total_size'])
             for data in self.stats['by_topic'].values()
         )
         total_cost = self.estimate_cost(total_tokens)
+        total_energy = self.estimate_energy(total_tokens, model=model_tier)
 
         output_data = {
             'summary': {
                 'total_conversations': self.stats['total_conversations'],
                 'total_messages': self.stats['total_messages'],
                 'total_estimated_tokens': total_tokens,
-                'total_estimated_cost': total_cost
+                'total_estimated_cost': total_cost,
+                'energy': {
+                    'total_wh': total_energy['wh'],
+                    'total_kwh': total_energy['kwh'],
+                    'equivalent_phone_charges': total_energy['equivalent_phone_charges'],
+                    'equivalent_led_bulb_hours': total_energy['equivalent_led_bulb_hours'],
+                    'model_tier': model_tier,
+                    'pue_applied': total_energy['pue_applied'],
+                    'estimates_config': ENERGY_ESTIMATES[model_tier]
+                }
             },
             'by_topic': {},
             'timeline': [],
@@ -387,12 +484,14 @@ Conversation: {text}"""
         # Process topic data
         for topic, data in self.stats['by_topic'].items():
             topic_tokens = self.estimate_tokens(data['total_size'])
+            topic_energy = self.estimate_energy(topic_tokens, model=model_tier)
             output_data['by_topic'][topic] = {
                 'count': data['count'],
                 'messages': data['messages'],
                 'size': data['total_size'],
                 'estimated_tokens': topic_tokens,
                 'estimated_cost': self.estimate_cost(topic_tokens),
+                'estimated_energy_wh': topic_energy['wh'],
                 'percentage': (data['count'] / self.stats['total_conversations'] * 100)
             }
 
@@ -401,6 +500,7 @@ Conversation: {text}"""
                 conv_date = self.extract_date(conv)
                 conv_size = self.calculate_size(conv)
                 conv_tokens = self.estimate_tokens(conv_size)
+                conv_energy = self.estimate_energy(conv_tokens, model=model_tier)
                 output_data['conversations'].append({
                     'title': self.extract_title(conv),
                     'topic': topic,
@@ -408,7 +508,8 @@ Conversation: {text}"""
                     'messages': self.count_messages(conv),
                     'size': conv_size,
                     'estimated_tokens': conv_tokens,
-                    'estimated_cost': self.estimate_cost(conv_tokens)
+                    'estimated_cost': self.estimate_cost(conv_tokens),
+                    'estimated_energy_wh': conv_energy['wh']
                 })
 
         # Sort conversations by date (most recent first)
@@ -446,6 +547,8 @@ def main():
                        help='Use NLP clustering with N groups (requires scikit-learn). Overrides --llm.')
     parser.add_argument('--visualize', action='store_true',
                        help='Generate HTML dashboard')
+    parser.add_argument('--model', choices=['haiku', 'sonnet', 'opus', 'default'], default='default',
+                       help='Model tier for energy estimates (default: default/sonnet-equivalent)')
 
     args = parser.parse_args()
 
@@ -453,9 +556,9 @@ def main():
         analyzer = ConversationAnalyzer(args.path)
         analyzer.analyze(use_llm=args.llm, n_clusters=args.clusters)
         analyzer.generate_report()
-        
-        # Save data for visualization
-        data_path = analyzer.save_json_data(args.output)
+
+        # Save data for visualization (with energy estimates for specified model tier)
+        data_path = analyzer.save_json_data(args.output, model_tier=args.model)
         
         if args.visualize:
             from dashboard_generator import generate_dashboard
