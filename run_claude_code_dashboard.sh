@@ -6,9 +6,16 @@ set -e
 
 # Configuration
 PROJECT_DIR="/home/rodavok/Projects/claude_dashboard"
-NTFY_TOPIC="your-secret-topic-here"  # Change this to your own secret topic
-DASHBOARD_FILE="$PROJECT_DIR/claude_code_dashboard.html"
 LOG_FILE="$PROJECT_DIR/cron.log"
+
+# Environment variables (set in ~/.profile):
+#   CLAUDE_DASH_NTFY_TOPIC - your ntfy notification topic
+
+# Validate required variables
+if [ -z "$CLAUDE_DASH_NTFY_TOPIC" ]; then
+    echo "$(date): ERROR - CLAUDE_DASH_NTFY_TOPIC not set" >> "$LOG_FILE"
+    exit 1
+fi
 
 # Activate venv if it exists
 if [ -f "$PROJECT_DIR/venv/bin/activate" ]; then
@@ -28,8 +35,8 @@ if python3 claude_code_analyzer.py --visualize >> "$LOG_FILE" 2>&1; then
         -H "Title: Claude Code Dashboard Updated" \
         -H "Priority: default" \
         -H "Tags: chart_with_upwards_trend" \
-        -d "Dashboard refreshed at $(date '+%Y-%m-%d %H:%M'). Open to view your usage stats." \
-        "https://ntfy.sh/$NTFY_TOPIC" > /dev/null
+        -d "Dashboard generated successfully." \
+        "https://ntfy.sh/$CLAUDE_DASH_NTFY_TOPIC" > /dev/null
 
     echo "$(date): Notification sent" >> "$LOG_FILE"
 else
@@ -41,5 +48,5 @@ else
         -H "Priority: high" \
         -H "Tags: warning" \
         -d "Check logs at $LOG_FILE" \
-        "https://ntfy.sh/$NTFY_TOPIC" > /dev/null
+        "https://ntfy.sh/$CLAUDE_DASH_NTFY_TOPIC" > /dev/null
 fi
