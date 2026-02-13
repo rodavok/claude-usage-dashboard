@@ -30,6 +30,10 @@ echo "$(date): Starting dashboard generation..." >> "$LOG_FILE"
 if python3 claude_code_analyzer.py --visualize >> "$LOG_FILE" 2>&1; then
     echo "$(date): Dashboard generated successfully" >> "$LOG_FILE"
 
+    # Export energy data for frozenwhispers widget
+    python3 export_energy_widget.py >> "$LOG_FILE" 2>&1
+    echo "$(date): Energy widget data exported" >> "$LOG_FILE"
+
     # Send notification via ntfy
     curl -s \
         -H "Title: Claude Code Dashboard Updated" \
