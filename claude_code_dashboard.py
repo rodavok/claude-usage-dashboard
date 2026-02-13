@@ -479,6 +479,27 @@ def generate_claude_code_dashboard(data_path, output_path='claude_code_dashboard
                         </div>
                     </div>
                     <div class="equiv-item">
+                        <div class="equiv-icon">🚙</div>
+                        <div class="equiv-text">
+                            <div class="equiv-value">{summary['energy_wh'] / 1053:.2f}</div>
+                            <div class="equiv-label">miles in a Toyota Corolla</div>
+                        </div>
+                    </div>
+                    <div class="equiv-item">
+                        <div class="equiv-icon">🛻</div>
+                        <div class="equiv-text">
+                            <div class="equiv-value">{summary['energy_wh'] / 1685:.2f}</div>
+                            <div class="equiv-label">miles in a Ford F150</div>
+                        </div>
+                    </div>
+                    <div class="equiv-item">
+                        <div class="equiv-icon">✈️</div>
+                        <div class="equiv-text">
+                            <div class="equiv-value">{summary['energy_wh'] / 320:.2f}</div>
+                            <div class="equiv-label">passenger-miles by airplane</div>
+                        </div>
+                    </div>
+                    <div class="equiv-item">
                         <div class="equiv-icon">📱</div>
                         <div class="equiv-text">
                             <div class="equiv-value">{summary['energy_wh'] / 12:.1f}</div>

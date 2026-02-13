@@ -82,12 +82,102 @@ Where:
 - 3600: Joules per Watt-hour
 ```
 
-## Equivalence References
+## Energy Equivalence Comparisons
 
-- 1 phone charge: ~12 Wh
-- 10W LED bulb for 1 hour: 10 Wh
-- 1 kWh = 1000 Wh
-- Average US household daily usage: ~30 kWh
+The dashboard displays energy consumption in relatable terms by converting Watt-hours to equivalent activities. This section explains each conversion.
+
+### Electric Devices
+
+| Equivalent | Wh per unit | Calculation | Source |
+|------------|-------------|-------------|--------|
+| Smartphone charge | 12 Wh | `energy_wh / 12` | Typical smartphone battery: 10-15 Wh |
+| 100W grow light | 100 Wh/hour | `energy_wh / 100` | Direct wattage rating |
+
+### Electric Vehicles
+
+| Vehicle | Wh/mile | Calculation | Source |
+|---------|---------|-------------|--------|
+| Tesla Model X | 350 | `energy_wh / 350` | EPA rated ~350 Wh/mi (2.86 mi/kWh) |
+
+### Gasoline Vehicles
+
+Gasoline vehicles require converting fuel economy (MPG) to energy consumption (Wh/mile).
+
+**Conversion Formula:**
+```
+Wh_per_mile = gasoline_energy_content / mpg
+            = 33,700 Wh/gallon / mpg
+```
+
+**Energy content of gasoline:** 1 gallon = ~33.7 kWh = 33,700 Wh
+- Source: US EIA - "Gasoline gallon equivalent" (GGE)
+- https://www.eia.gov/energyexplained/units-and-calculators/
+
+| Vehicle | MPG (combined) | Wh/mile | Calculation | Source |
+|---------|----------------|---------|-------------|--------|
+| Toyota Corolla | 32 | 1,053 | `33,700 / 32 = 1,053` | EPA 2024 combined rating |
+| Ford F150 | 20 | 1,685 | `33,700 / 20 = 1,685` | EPA 2024 combined (varies by engine) |
+
+**Dashboard calculation:** `energy_wh / wh_per_mile = equivalent_miles`
+
+### Commercial Aviation
+
+Air travel energy is measured in Wh per passenger-mile to account for shared capacity.
+
+**Methodology:**
+```
+Fuel per passenger-mile = total_fuel / (passengers × distance)
+Energy = fuel × energy_content_of_jet_fuel
+```
+
+**Jet fuel energy content:** 1 gallon = ~37.1 kWh (kerosene-type Jet A)
+- Source: US EIA - https://www.eia.gov/energyexplained/jet-fuel/
+
+**Typical commercial aviation efficiency:**
+- Modern narrow-body (737, A320): ~2.5 L/100 passenger-km
+- Equivalent: ~0.66 gal/100 passenger-miles
+- Energy: 0.66 × 37.1 kWh / 100 = **0.245 kWh/passenger-mile**
+
+We use **320 Wh/passenger-mile** as a conservative estimate that accounts for:
+- Mix of aircraft types (narrow-body and wide-body)
+- Less-than-full load factors (~85% average)
+- Ground operations and taxi time
+
+| Mode | Wh/passenger-mile | Calculation | Source |
+|------|-------------------|-------------|--------|
+| Commercial airplane | 320 | `energy_wh / 320` | ICAO, IATA efficiency reports |
+
+### Comparison Context
+
+To put Claude Code energy usage in perspective:
+
+| Activity | Typical Energy |
+|----------|----------------|
+| 1 hour of Claude Code usage | ~10-50 Wh |
+| Driving 1 mile in an F150 | 1,685 Wh |
+| Flying 1 passenger-mile | 320 Wh |
+| Charging a smartphone | 12 Wh |
+| Running a desktop PC for 1 hour | 100-300 Wh |
+
+**Key insight:** AI assistance uses comparable or less energy than many everyday activities when measured per unit of productive output.
+
+### Sources
+
+1. **US Energy Information Administration (EIA)**
+   - Gasoline energy content: https://www.eia.gov/energyexplained/units-and-calculators/
+   - Jet fuel specifications: https://www.eia.gov/energyexplained/jet-fuel/
+
+2. **EPA Fuel Economy**
+   - Vehicle MPG ratings: https://www.fueleconomy.gov/
+   - EV efficiency (kWh/100mi): https://www.fueleconomy.gov/feg/evtech.shtml
+
+3. **Aviation Efficiency**
+   - ICAO Carbon Emissions Calculator: https://www.icao.int/environmental-protection/CarbonOffset/Pages/default.aspx
+   - IATA Fact Sheet - Fuel: https://www.iata.org/en/iata-repository/publications/economic-reports/airline-industry-economic-performance---june-2024---data-tables/
+
+4. **Battery/Device Energy**
+   - Smartphone batteries typically 3,000-5,000 mAh at 3.7V = 11-18.5 Wh
+   - We use 12 Wh as a representative midpoint
 
 ## Future Updates
 
