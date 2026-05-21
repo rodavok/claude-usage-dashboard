@@ -1,11 +1,11 @@
 #!/bin/bash
 # Automated Claude Code Dashboard Generator with ntfy notification
-# Run via cron: 0 8 * * * /home/rodavok/Projects/claude_dashboard/run_claude_code_dashboard.sh
+# Run via cron: 0 8 * * * /path/to/run_claude_code_dashboard.sh
 
 set -e
 
-# Configuration
-PROJECT_DIR="/home/rodavok/Projects/claude_dashboard"
+# Configuration - auto-detect project directory from script location
+PROJECT_DIR="$(cd "$(dirname "$0")" && pwd)"
 LOG_FILE="$PROJECT_DIR/cron.log"
 
 # Environment variables (set in ~/.profile):

@@ -1,0 +1,7 @@
+# Core dependencies (none - uses standard library)
+
+# Optional: NLP-based topic clustering (recommended)
+scikit-learn>=1.0
+
+# Optional: Claude API for LLM-based topic classification
+anthropic>=0.20

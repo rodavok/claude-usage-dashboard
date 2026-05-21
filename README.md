@@ -1,8 +1,29 @@
-# Claude Conversations Dashboard
+# Claude Dashboard
 
-Analyze your Claude Code conversations to understand usage patterns, topics, and token consumption.
+Analyze your [Claude Code](https://claude.ai/code) usage with interactive dashboards showing topics, token consumption, and energy estimates.
 
-## Quick Start
+## Scripts Overview
+
+| Script | Purpose | Data Source |
+|--------|---------|-------------|
+| `claude_conversation_dashboard.py` | Analyze conversations by topic | `~/.claude/conversations/conversations.json` |
+| `claude_code_analyzer.py` | Analyze per-project usage with energy estimates | `~/.claude/projects/` |
+| `claude_code_dashboard.py` | Generate HTML from analyzer output | JSON from analyzer |
+| `dashboard_generator.py` | Generate HTML from conversation output | JSON from conversation analyzer |
+
+## Installation
+
+```bash
+git clone https://github.com/yourusername/claude_dashboard.git
+cd claude_dashboard
+
+# Optional dependencies (for better topic classification)
+pip install -r requirements.txt
+```
+
+## Conversation Dashboard
+
+Analyzes your conversations by topic distribution, message counts, and token usage.
 
 ```bash
 # Basic analysis (keyword-based topic classification)
@@ -10,6 +31,9 @@ python3 claude_conversation_dashboard.py
 
 # With visualization
 python3 claude_conversation_dashboard.py --visualize
+
+# NLP clustering for dynamic topic discovery (recommended)
+python3 claude_conversation_dashboard.py --clusters 10 --visualize
 
 # Using Claude API for better topic classification
 python3 claude_conversation_dashboard.py --llm --visualize
@@ -20,6 +44,27 @@ python3 claude_conversation_dashboard.py \
   --output my_data.json \
   --visualize
 ```
+
+**Output:** `dashboard.html` - open in browser
+
+## Claude Code Analyzer
+
+Analyzes per-project token usage with energy consumption estimates. Reads from `~/.claude/projects/`.
+
+```bash
+# Basic analysis
+python3 claude_code_analyzer.py
+
+# With visualization
+python3 claude_code_analyzer.py --visualize
+
+# Custom projects directory
+python3 claude_code_analyzer.py --projects-dir ~/Projects --visualize
+```
+
+**Output:** `claude_code_dashboard.html` - open in browser
+
+See `ENERGY_ESTIMATES.md` for details on energy calculation methodology.
 
 ## Features
 
@@ -96,10 +141,12 @@ new Chart(document.getElementById('customChart'), {
 
 ## Dependencies
 
-Optional:
+No dependencies required for basic usage (standard library only).
+
+Optional (install via `pip install -r requirements.txt`):
+- `scikit-learn` - For NLP-based topic clustering (recommended)
 - `anthropic` - For LLM-based topic classification
   ```bash
-  pip install anthropic
   export ANTHROPIC_API_KEY=your_key
   ```
 
