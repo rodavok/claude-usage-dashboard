@@ -58,8 +58,8 @@ class ClaudeCodeAnalyzer:
 
     def path_to_claude_dir_name(self, path):
         """Convert a path to Claude's directory naming convention."""
-        # Claude replaces slashes and underscores with dashes
-        return str(path).replace('/', '-').replace('_', '-')
+        # Claude replaces slashes, underscores, and spaces with dashes
+        return str(path).replace('/', '-').replace('_', '-').replace(' ', '-')
 
     def find_projects_with_claude_code(self):
         """Find projects in ~/Projects that have Claude Code data."""
@@ -72,19 +72,34 @@ class ClaudeCodeAnalyzer:
         # Get all claude project directories
         claude_dirs = {d.name: d for d in self.claude_projects_dir.iterdir() if d.is_dir()}
 
-        # Check each project in ~/Projects
-        if self.projects_dir.exists():
-            for project_path in self.projects_dir.iterdir():
-                if project_path.is_dir():
-                    # Convert project path to claude dir name format
-                    claude_dir_name = self.path_to_claude_dir_name(project_path)
+        # Check each project in ~/Projects and ~/Projects/Archive
+        search_dirs = [self.projects_dir]
+        archive_dir = self.projects_dir / 'Archive'
+        if archive_dir.exists():
+            search_dirs.append(archive_dir)
 
-                    if claude_dir_name in claude_dirs:
-                        projects_found.append({
-                            'name': project_path.name,
-                            'path': project_path,
-                            'claude_dir': claude_dirs[claude_dir_name]
-                        })
+        for search_dir in search_dirs:
+            if search_dir.exists():
+                for project_path in search_dir.iterdir():
+                    if project_path.is_dir() and project_path.name != 'Archive':
+                        claude_dir_name = self.path_to_claude_dir_name(project_path)
+
+                        # For archived projects, also check original path (before moving to Archive)
+                        original_path = self.projects_dir / project_path.name
+                        original_claude_dir_name = self.path_to_claude_dir_name(original_path)
+
+                        matched_dir = None
+                        if claude_dir_name in claude_dirs:
+                            matched_dir = claude_dirs[claude_dir_name]
+                        elif original_claude_dir_name in claude_dirs:
+                            matched_dir = claude_dirs[original_claude_dir_name]
+
+                        if matched_dir:
+                            projects_found.append({
+                                'name': project_path.name,
+                                'path': project_path,
+                                'claude_dir': matched_dir
+                            })
 
         return projects_found
 
