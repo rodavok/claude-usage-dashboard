@@ -7,3 +7,6 @@ dashboard.html
 *.log
 __pycache__/*
 *.pyc
+conversations.json
+projects.json
+users.json
