@@ -1,768 +1,128 @@
 #!/usr/bin/env python3
 """
-Dashboard Generator - Creates interactive HTML visualization
+Dashboard Generator - builds one interactive HTML dashboard covering both
+claude.ai chats (conversation_data.json) and Claude Code sessions
+(claude_code_data.json). Either input may be missing; the page lets you
+toggle each source on and off and recomputes every stat in the browser.
 """
 
 import json
 import os
 from datetime import datetime
 
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+TEMPLATE_PATH = os.path.join(SCRIPT_DIR, 'dashboard_template.html')
 
-def generate_dashboard(data_path, output_path='dashboard.html'):
-    """Generate interactive HTML dashboard"""
+DEFAULT_CHAT_PATH = 'conversation_data.json'
+DEFAULT_CODE_PATH = 'claude_code_data.json'
+DEFAULT_OUTPUT_PATH = 'dashboard.html'
 
-    with open(data_path, 'r') as f:
-        data = json.load(f)
 
-    # Load Chart.js from local file for offline support
-    script_dir = os.path.dirname(os.path.abspath(__file__))
-    chartjs_path = os.path.join(script_dir, 'chartjs.min.js')
-    with open(chartjs_path, 'r') as f:
-        chartjs_code = f.read()
+def load_json(path):
+    if path and os.path.exists(path):
+        with open(path, 'r') as f:
+            return json.load(f)
+    return None
 
-    html = f"""<!DOCTYPE html>
-<html>
-<head>
-    <title>Claude Conversations Dashboard</title>
-    <script>{chartjs_code}</script>
-    <style>
-        body {{
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            margin: 0;
-            padding: 20px;
-            background: #f5f5f5;
-        }}
-        .container {{
-            max-width: 1400px;
-            margin: 0 auto;
-        }}
-        h1 {{
-            color: #2c3e50;
-            border-bottom: 3px solid #3498db;
-            padding-bottom: 10px;
-        }}
-        /* Tab styles */
-        .tabs {{
-            display: flex;
-            gap: 0;
-            margin-bottom: 20px;
-            border-bottom: 2px solid #e0e0e0;
-        }}
-        .tab-btn {{
-            padding: 12px 24px;
-            border: none;
-            background: none;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: 500;
-            color: #7f8c8d;
-            border-bottom: 3px solid transparent;
-            margin-bottom: -2px;
-            transition: all 0.2s;
-        }}
-        .tab-btn:hover {{
-            color: #3498db;
-        }}
-        .tab-btn.active {{
-            color: #3498db;
-            border-bottom-color: #3498db;
-        }}
-        .tab-content {{
-            display: none;
-        }}
-        .tab-content.active {{
-            display: block;
-        }}
-        .stats {{
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin: 20px 0;
-        }}
-        .stat-card {{
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }}
-        .stat-card h3 {{
-            margin: 0 0 10px 0;
-            color: #7f8c8d;
-            font-size: 14px;
-            text-transform: uppercase;
-        }}
-        .stat-card .value {{
-            font-size: 32px;
-            font-weight: bold;
-            color: #2c3e50;
-        }}
-        .chart-container {{
-            background: white;
-            padding: 20px;
-            margin: 20px 0;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }}
-        .chart-wrapper {{
-            position: relative;
-            height: 400px;
-        }}
-        .chart-wrapper.timeline {{
-            height: 500px;
-        }}
-        .table-container {{
-            background: white;
-            padding: 20px;
-            margin: 20px 0;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            overflow-x: auto;
-        }}
-        table {{
-            width: 100%;
-            border-collapse: collapse;
-        }}
-        th, td {{
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid #ecf0f1;
-        }}
-        th {{
-            background: #f8f9fa;
-            font-weight: 600;
-            color: #2c3e50;
-        }}
-        tr:hover {{
-            background: #f8f9fa;
-        }}
-        .footer {{
-            text-align: center;
-            color: #7f8c8d;
-            margin-top: 40px;
-            padding: 20px;
-        }}
-        /* Conversations tab styles */
-        .filters {{
-            display: flex;
-            gap: 16px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-            align-items: center;
-        }}
-        .filter-group {{
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }}
-        .filter-group label {{
-            font-size: 12px;
-            font-weight: 600;
-            color: #7f8c8d;
-            text-transform: uppercase;
-        }}
-        .filter-group select, .filter-group input {{
-            padding: 8px 12px;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            font-size: 14px;
-            min-width: 150px;
-        }}
-        .filter-group select:focus, .filter-group input:focus {{
-            outline: none;
-            border-color: #3498db;
-        }}
-        .conversation-count {{
-            color: #7f8c8d;
-            font-size: 14px;
-            margin-left: auto;
-        }}
-        .conversation-list {{
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }}
-        .conversation-item {{
-            border-bottom: 1px solid #ecf0f1;
-        }}
-        .conversation-item:last-child {{
-            border-bottom: none;
-        }}
-        .conversation-header {{
-            display: flex;
-            align-items: center;
-            padding: 16px 20px;
-            cursor: pointer;
-            transition: background 0.2s;
-        }}
-        .conversation-header:hover {{
-            background: #f8f9fa;
-        }}
-        .expand-icon {{
-            width: 20px;
-            height: 20px;
-            margin-right: 12px;
-            transition: transform 0.2s;
-            color: #7f8c8d;
-        }}
-        .conversation-item.expanded .expand-icon {{
-            transform: rotate(90deg);
-        }}
-        .conversation-title {{
-            flex: 1;
-            font-weight: 500;
-            color: #2c3e50;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }}
-        .conversation-meta {{
-            display: flex;
-            gap: 16px;
-            font-size: 13px;
-            color: #7f8c8d;
-        }}
-        .conversation-meta span {{
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }}
-        .topic-badge {{
-            background: #e8f4fd;
-            color: #3498db;
-            padding: 4px 10px;
-            border-radius: 12px;
-            font-size: 12px;
-            font-weight: 500;
-        }}
-        .conversation-details {{
-            display: none;
-            padding: 0 20px 20px 52px;
-            background: #fafbfc;
-        }}
-        .conversation-item.expanded .conversation-details {{
-            display: block;
-        }}
-        .detail-grid {{
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 16px;
-        }}
-        .detail-item {{
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }}
-        .detail-item label {{
-            font-size: 11px;
-            font-weight: 600;
-            color: #95a5a6;
-            text-transform: uppercase;
-        }}
-        .detail-item span {{
-            font-size: 14px;
-            color: #2c3e50;
-        }}
-        .no-results {{
-            text-align: center;
-            padding: 40px;
-            color: #7f8c8d;
-        }}
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>Claude Conversations Dashboard</h1>
 
-        <div class="tabs">
-            <button class="tab-btn active" onclick="switchTab('analytics')">Analytics</button>
-            <button class="tab-btn" onclick="switchTab('conversations')">Conversations</button>
-        </div>
+def chat_records(data):
+    """Flatten conversation_data.json into dashboard records."""
+    for c in data.get('conversations', []):
+        yield {
+            'src': 'chat',
+            'title': c.get('title') or 'Untitled conversation',
+            'group': c.get('topic') or 'Uncategorized',
+            'date': c.get('date'),
+            'ts': c.get('timestamp'),
+            'n': 1,
+            # Older data files predate the prompts field; chats alternate turns
+            'prompts': c.get('prompts', (c.get('messages', 0) + 1) // 2),
+            'tok': c.get('estimated_tokens', 0),
+            'cost': round(c.get('estimated_cost', 0), 5),
+            'wh': round(c.get('estimated_energy_wh', 0), 4),
+            'tier': None,
+            'model': None,
+        }
 
-        <div id="analytics-tab" class="tab-content active">
-        
-        <div class="stats">
-            <div class="stat-card">
-                <h3>Total Conversations</h3>
-                <div class="value">{data['summary']['total_conversations']}</div>
-            </div>
-            <div class="stat-card">
-                <h3>Total Messages</h3>
-                <div class="value">{data['summary']['total_messages']}</div>
-            </div>
-            <div class="stat-card">
-                <h3>Avg Messages/Conv</h3>
-                <div class="value">{data['summary']['total_messages'] / data['summary']['total_conversations']:.1f}</div>
-            </div>
-            <div class="stat-card">
-                <h3>Topics Covered</h3>
-                <div class="value">{len(data['by_topic'])-1}</div>
-            </div>
-            <div class="stat-card">
-                <h3>Total Est. Tokens</h3>
-                <div class="value">{data['summary'].get('total_estimated_tokens', 0):,}</div>
-            </div>
-            <div class="stat-card">
-                <h3>Avg Tokens/Conv</h3>
-                <div class="value">{data['summary'].get('total_estimated_tokens', 0) // max(data['summary']['total_conversations'], 1):,}</div>
-            </div>
-            <div class="stat-card">
-                <h3>Est. Total Cost (Sonnet)</h3>
-                <div class="value">${data['summary'].get('total_estimated_cost', 0):.2f}</div>
-            </div>
-            <div class="stat-card">
-                <h3>Est. Energy (Wh)</h3>
-                <div class="value">{data['summary'].get('energy', {}).get('total_wh', 0):.1f}</div>
-            </div>
-            <div class="stat-card">
-                <h3>Phone Charges Equiv.</h3>
-                <div class="value">{data['summary'].get('energy', {}).get('equivalent_phone_charges', 0):.1f}</div>
-            </div>
-        </div>
-        
-        <div class="chart-container">
-            <h2>Conversations by Topic</h2>
-            <div class="chart-wrapper">
-                <canvas id="topicPieChart"></canvas>
-            </div>
-        </div>
-        
-        <div class="chart-container">
-            <h2>Messages by Topic</h2>
-            <div class="chart-wrapper">
-                <canvas id="messagesBarChart"></canvas>
-            </div>
-        </div>
-        
-        <div class="chart-container">
-            <h2>Estimated Token Usage by Topic</h2>
-            <div class="chart-wrapper">
-                <canvas id="tokensBarChart"></canvas>
-            </div>
-        </div>
 
-        <div class="chart-container">
-            <h2>Estimated Energy Consumption by Topic (Wh)</h2>
-            <div class="chart-wrapper">
-                <canvas id="energyBarChart"></canvas>
-            </div>
-        </div>
+def code_records(data):
+    """Flatten claude_code_data.json into dashboard records."""
+    for c in data.get('conversations', []):
+        tokens = c.get('tokens', {})
+        is_subagent = c.get('is_subagent', False)
+        yield {
+            'src': 'code',
+            'title': c.get('title') or 'Untitled session',
+            'group': c.get('project') or 'Unknown project',
+            'date': c.get('date'),
+            'ts': c.get('timestamp'),
+            # Subagent runs belong to a parent session; stats-cache days hold several
+            'n': 0 if is_subagent else c.get('session_count', 1),
+            'prompts': c.get('turns', 0),
+            'tok': tokens.get('total', 0),
+            'cr': tokens.get('cache_read', 0),
+            'cost': round(c.get('cost_estimate', 0), 5),
+            'wh': round(c.get('energy_wh', 0), 4),
+            'tier': c.get('model_tier'),
+            'model': c.get('primary_model'),
+            'sub': is_subagent,
+            'bf': c.get('is_backfill', False),
+        }
 
-        <div class="chart-container">
-            <h2>Timeline</h2>
-            <div class="chart-wrapper timeline">
-                <canvas id="timelineChart"></canvas>
-            </div>
-        </div>
-        
-        <div class="table-container">
-            <h2>Detailed Topic Breakdown</h2>
-            <table id="topicTable">
-                <thead>
-                    <tr>
-                        <th>Topic</th>
-                        <th>Conversations</th>
-                        <th>% of Total</th>
-                        <th>Messages</th>
-                        <th>Avg Messages</th>
-                        <th>Size (KB)</th>
-                        <th>Est. Tokens</th>
-                        <th>Est. Cost</th>
-                        <th>Est. Energy (Wh)</th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
-        </div>
-        </div>
 
-        <div id="conversations-tab" class="tab-content">
-            <div class="filters">
-                <div class="filter-group">
-                    <label>Topic</label>
-                    <select id="topicFilter">
-                        <option value="">All Topics</option>
-                    </select>
-                </div>
-                <div class="filter-group">
-                    <label>From Date</label>
-                    <input type="date" id="dateFromFilter">
-                </div>
-                <div class="filter-group">
-                    <label>To Date</label>
-                    <input type="date" id="dateToFilter">
-                </div>
-                <div class="conversation-count" id="conversationCount"></div>
-            </div>
-            <div class="conversation-list" id="conversationList"></div>
-        </div>
+def generate_dashboard(chat_path=DEFAULT_CHAT_PATH, code_path=DEFAULT_CODE_PATH,
+                       output_path=DEFAULT_OUTPUT_PATH):
+    """Generate the combined HTML dashboard from whichever data files exist."""
+    chat = load_json(chat_path)
+    code = load_json(code_path)
+    if chat is None and code is None:
+        raise FileNotFoundError(
+            f"No data found at {chat_path} or {code_path}. Run "
+            "claude_conversation_dashboard.py or claude_code_analyzer.py first.")
 
-        <div class="footer">
-            Generated {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
-        </div>
-    </div>
-    
-    <script>
-        const data = {json.dumps(data)};
-        
-        // Color palette - maximally distinct colors
-        const colors = [
-            '#2563eb', // blue
-            '#dc2626', // red
-            '#16a34a', // green
-            '#9333ea', // purple
-            '#ea580c', // orange
-            '#0891b2', // cyan
-            '#ca8a04', // yellow
-            '#db2777', // pink
-            '#4b5563', // gray
-            '#84cc16', // lime
-            '#6366f1', // indigo
-            '#14b8a6', // teal
-            '#f97316', // amber
-            '#8b5cf6', // violet
-            '#06b6d4', // sky
-        ];
+    records = []
+    if chat is not None:
+        records.extend(chat_records(chat))
+    if code is not None:
+        records.extend(code_records(code))
 
-        // Prepare topic data - sorted by count descending
-        const sortedTopics = Object.entries(data.by_topic)
-            .sort((a, b) => b[1].count - a[1].count);
-        const topics = sortedTopics.map(([t, _]) => t);
-        const topicCounts = sortedTopics.map(([_, v]) => v.count);
-        const topicMessages = sortedTopics.map(([_, v]) => v.messages);
-        const topicTokens = sortedTopics.map(([_, v]) => v.estimated_tokens);
-        const topicEnergy = sortedTopics.map(([_, v]) => v.estimated_energy_wh || 0);
-        
-        // Pie Chart - Topic Distribution
-        new Chart(document.getElementById('topicPieChart'), {{
-            type: 'pie',
-            data: {{
-                labels: topics,
-                datasets: [{{
-                    data: topicCounts,
-                    backgroundColor: colors,
-                }}]
-            }},
-            options: {{
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {{
-                    legend: {{
-                        position: 'right',
-                    }},
-                    tooltip: {{
-                        callbacks: {{
-                            label: function(context) {{
-                                const label = context.label || '';
-                                const value = context.parsed;
-                                const total = context.dataset.data.reduce((a, b) => a + b, 0);
-                                const pct = ((value / total) * 100).toFixed(1);
-                                return label + ': ' + value + ' (' + pct + '%)';
-                            }}
-                        }}
-                    }}
-                }}
-            }}
-        }});
-        
-        // Bar Chart - Messages by Topic
-        new Chart(document.getElementById('messagesBarChart'), {{
-            type: 'bar',
-            data: {{
-                labels: topics,
-                datasets: [{{
-                    label: 'Total Messages',
-                    data: topicMessages,
-                    backgroundColor: colors.slice(0, topics.length),
-                }}]
-            }},
-            options: {{
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {{
-                    legend: {{ display: false }}
-                }},
-                scales: {{
-                    y: {{
-                        beginAtZero: true
-                    }}
-                }}
-            }}
-        }});
-        
-        // Bar Chart - Tokens by Topic
-        new Chart(document.getElementById('tokensBarChart'), {{
-            type: 'bar',
-            data: {{
-                labels: topics,
-                datasets: [{{
-                    label: 'Estimated Tokens',
-                    data: topicTokens,
-                    backgroundColor: colors.slice(0, topics.length),
-                }}]
-            }},
-            options: {{
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {{
-                    y: {{
-                        beginAtZero: true,
-                        ticks: {{
-                            callback: function(value) {{
-                                return value.toLocaleString();
-                            }}
-                        }}
-                    }}
-                }},
-                plugins: {{
-                    legend: {{ display: false }},
-                    tooltip: {{
-                        callbacks: {{
-                            label: function(context) {{
-                                return 'Tokens: ' + context.parsed.y.toLocaleString();
-                            }}
-                        }}
-                    }}
-                }}
-            }}
-        }});
+    chat_tier = 'default'
+    if chat is not None:
+        chat_tier = chat.get('summary', {}).get('energy', {}).get('model_tier', 'default')
 
-        // Bar Chart - Energy by Topic
-        new Chart(document.getElementById('energyBarChart'), {{
-            type: 'bar',
-            data: {{
-                labels: topics,
-                datasets: [{{
-                    label: 'Estimated Energy (Wh)',
-                    data: topicEnergy,
-                    backgroundColor: colors.slice(0, topics.length),
-                }}]
-            }},
-            options: {{
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {{
-                    y: {{
-                        beginAtZero: true,
-                        ticks: {{
-                            callback: function(value) {{
-                                return value.toFixed(2) + ' Wh';
-                            }}
-                        }}
-                    }}
-                }},
-                plugins: {{
-                    legend: {{ display: false }},
-                    tooltip: {{
-                        callbacks: {{
-                            label: function(context) {{
-                                const wh = context.parsed.y;
-                                const phoneCharges = (wh / 12).toFixed(2);
-                                return ['Energy: ' + wh.toFixed(2) + ' Wh', 'Phone charges: ' + phoneCharges];
-                            }}
-                        }}
-                    }}
-                }}
-            }}
-        }});
+    payload = {
+        'meta': {
+            'generated': datetime.now().strftime('%b %-d, %Y %H:%M'),
+            'chat_tier': 'Sonnet-equivalent default' if chat_tier == 'default' else chat_tier,
+        },
+        'records': records,
+    }
 
-        // Timeline Chart - Stacked Bar
-        const timelineData = data.timeline;
-        const dates = timelineData.map(d => d.date);
+    with open(TEMPLATE_PATH, 'r') as f:
+        template = f.read()
+    # Escape "</" so titles containing "</script>" can't end the script block
+    data_js = json.dumps(payload, separators=(',', ':')).replace('</', '<\\/')
+    html = template.replace('/*__DATA__*/null', data_js, 1)
 
-        // Create dataset for each topic
-        const timelineDatasets = topics.map((topic, i) => ({{
-            label: topic,
-            data: timelineData.map(d => d.topics[topic] || 0),
-            backgroundColor: colors[i % colors.length],
-        }}));
-
-        new Chart(document.getElementById('timelineChart'), {{
-            type: 'bar',
-            data: {{
-                labels: dates,
-                datasets: timelineDatasets
-            }},
-            options: {{
-                responsive: true,
-                maintainAspectRatio: false,
-                interaction: {{
-                    mode: 'index',
-                    intersect: false,
-                }},
-                plugins: {{
-                    legend: {{ display: false }}
-                }},
-                scales: {{
-                    x: {{
-                        display: true,
-                        stacked: true,
-                        title: {{
-                            display: true,
-                            text: 'Date'
-                        }}
-                    }},
-                    y: {{
-                        display: true,
-                        stacked: true,
-                        title: {{
-                            display: true,
-                            text: 'Conversations'
-                        }},
-                        beginAtZero: true
-                    }}
-                }}
-            }}
-        }});
-        
-        // Populate table
-        const tbody = document.querySelector('#topicTable tbody');
-        Object.entries(data.by_topic)
-            .sort((a, b) => b[1].count - a[1].count)
-            .forEach(([topic, stats]) => {{
-                const row = tbody.insertRow();
-                row.innerHTML = `
-                    <td><strong>${{topic}}</strong></td>
-                    <td>${{stats.count}}</td>
-                    <td>${{stats.percentage.toFixed(1)}}%</td>
-                    <td>${{stats.messages}}</td>
-                    <td>${{(stats.messages / stats.count).toFixed(1)}}</td>
-                    <td>${{(stats.size / 1024).toFixed(1)}}</td>
-                    <td>${{stats.estimated_tokens.toLocaleString()}}</td>
-                    <td>${{stats.estimated_cost ? '$' + stats.estimated_cost.toFixed(2) : '-'}}</td>
-                    <td>${{stats.estimated_energy_wh ? stats.estimated_energy_wh.toFixed(2) : '-'}}</td>
-                `;
-            }});
-
-        // Tab switching
-        function switchTab(tabName) {{
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
-            document.getElementById(tabName + '-tab').classList.add('active');
-            // Mark the clicked button as active
-            event.target.classList.add('active');
-        }}
-
-        // Conversations tab functionality
-        const conversations = data.conversations || [];
-        const topicFilter = document.getElementById('topicFilter');
-        const dateFromFilter = document.getElementById('dateFromFilter');
-        const dateToFilter = document.getElementById('dateToFilter');
-        const conversationList = document.getElementById('conversationList');
-        const conversationCount = document.getElementById('conversationCount');
-
-        // Populate topic filter
-        topics.forEach(topic => {{
-            const option = document.createElement('option');
-            option.value = topic;
-            option.textContent = topic;
-            topicFilter.appendChild(option);
-        }});
-
-        // Set date range from data
-        const convDates = conversations.filter(c => c.date).map(c => c.date).sort();
-        if (convDates.length > 0) {{
-            dateFromFilter.value = convDates[0];
-            dateToFilter.value = convDates[convDates.length - 1];
-        }}
-
-        function escapeHtml(text) {{
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
-        }}
-
-        function renderConversations() {{
-            const selectedTopic = topicFilter.value;
-            const fromDate = dateFromFilter.value;
-            const toDate = dateToFilter.value;
-
-            const filtered = conversations.filter(conv => {{
-                if (selectedTopic && conv.topic !== selectedTopic) return false;
-                if (fromDate && conv.date && conv.date < fromDate) return false;
-                if (toDate && conv.date && conv.date > toDate) return false;
-                return true;
-            }});
-
-            conversationCount.textContent = `Showing ${{filtered.length}} of ${{conversations.length}} conversations`;
-
-            if (filtered.length === 0) {{
-                conversationList.innerHTML = '<div class="no-results">No conversations match the selected filters.</div>';
-                return;
-            }}
-
-            conversationList.innerHTML = filtered.map((conv, idx) => `
-                <div class="conversation-item" data-idx="${{idx}}">
-                    <div class="conversation-header" onclick="toggleConversation(this.parentElement)">
-                        <svg class="expand-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <polyline points="9 18 15 12 9 6"></polyline>
-                        </svg>
-                        <div class="conversation-title">${{escapeHtml(conv.title)}}</div>
-                        <div class="conversation-meta">
-                            <span class="topic-badge">${{escapeHtml(conv.topic)}}</span>
-                            <span>${{conv.date || 'No date'}}</span>
-                        </div>
-                    </div>
-                    <div class="conversation-details">
-                        <div class="detail-grid">
-                            <div class="detail-item">
-                                <label>Messages</label>
-                                <span>${{conv.messages}}</span>
-                            </div>
-                            <div class="detail-item">
-                                <label>Size</label>
-                                <span>${{(conv.size / 1024).toFixed(1)}} KB</span>
-                            </div>
-                            <div class="detail-item">
-                                <label>Est. Tokens</label>
-                                <span>${{conv.estimated_tokens.toLocaleString()}}</span>
-                            </div>
-                            <div class="detail-item">
-                                <label>Est. Cost</label>
-                                <span>${{conv.estimated_cost ? '$' + conv.estimated_cost.toFixed(2) : '-'}}</span>
-                            </div>
-                            <div class="detail-item">
-                                <label>Est. Energy</label>
-                                <span>${{conv.estimated_energy_wh ? conv.estimated_energy_wh.toFixed(3) + ' Wh' : '-'}}</span>
-                            </div>
-                            <div class="detail-item">
-                                <label>Topic</label>
-                                <span>${{escapeHtml(conv.topic)}}</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `).join('');
-        }}
-
-        function toggleConversation(item) {{
-            item.classList.toggle('expanded');
-        }}
-
-        // Event listeners
-        topicFilter.addEventListener('change', renderConversations);
-        dateFromFilter.addEventListener('change', renderConversations);
-        dateToFilter.addEventListener('change', renderConversations);
-
-        // Initial render
-        renderConversations();
-    </script>
-</body>
-</html>"""
-    
     with open(output_path, 'w') as f:
         f.write(html)
-    
-    print(f"\n✅ Dashboard generated: {output_path}")
-    print(f"   Open in browser: file://{os.path.abspath(output_path)}")
-    
+
+    sources = [name for name, d in (('chat', chat), ('code', code)) if d is not None]
+    print(f"\nDashboard generated: {output_path} ({' + '.join(sources)}, {len(records):,} records)")
+    print(f"Open in browser: file://{os.path.abspath(output_path)}")
     return output_path
 
 
 if __name__ == '__main__':
-    import sys
+    import argparse
 
-    if len(sys.argv) < 2:
-        print("Usage: python dashboard_generator.py <data.json>")
-        sys.exit(1)
-    
-    generate_dashboard(sys.argv[1])
+    parser = argparse.ArgumentParser(description='Build the combined Claude usage dashboard')
+    parser.add_argument('--chat', default=DEFAULT_CHAT_PATH,
+                        help=f'claude.ai data from claude_conversation_dashboard.py (default: {DEFAULT_CHAT_PATH})')
+    parser.add_argument('--code', default=DEFAULT_CODE_PATH,
+                        help=f'Claude Code data from claude_code_analyzer.py (default: {DEFAULT_CODE_PATH})')
+    parser.add_argument('--output', default=DEFAULT_OUTPUT_PATH,
+                        help=f'Output HTML file (default: {DEFAULT_OUTPUT_PATH})')
+    args = parser.parse_args()
+
+    generate_dashboard(args.chat, args.code, args.output)

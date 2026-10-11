@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Claude Conversations Dashboard
-Analyzes conversations.json to provide insights into Claude usage patterns
+Analyzes a claude.ai data export to provide insights into Claude usage patterns
 """
 
 import json
@@ -68,7 +68,7 @@ DEFAULT_PUE = 1.4
 
 class ConversationAnalyzer:
     def __init__(self, conversations_path):
-        self.conversations_path = os.path.expanduser(conversations_path)
+        self.conversations_path = self.resolve_path(conversations_path)
         self.conversations = self.load_conversations()
         self.topics = defaultdict(list)
         self.stats = {
@@ -84,10 +84,34 @@ class ConversationAnalyzer:
             'total_messages': 0
         }
         
+    @staticmethod
+    def resolve_path(conversations_path):
+        """Resolve a path that may be a conversations.json or an export directory.
+
+        A claude.ai export now arrives as a manifest plus several zips. When
+        given a directory, assemble those zips into conversations.json first
+        (only if they are newer than an already-assembled copy).
+        """
+        path = os.path.expanduser(conversations_path)
+        if not os.path.isdir(path):
+            return path
+
+        import import_export
+        if import_export.needs_assembly(path, path):
+            print(f"Assembling claude.ai export zips in {path}...")
+            assembled = import_export.assemble(path, path)
+            if assembled:
+                return assembled
+        return os.path.join(path, 'conversations.json')
+
     def load_conversations(self):
         """Load conversations from JSON file"""
         if not os.path.exists(self.conversations_path):
-            raise FileNotFoundError(f"Conversations file not found: {self.conversations_path}")
+            raise FileNotFoundError(
+                f"Conversations file not found: {self.conversations_path}\n"
+                "Request an export from claude.ai, download the zips listed in the "
+                "manifest-*.json it gives you, and place them in this folder."
+            )
         
         with open(self.conversations_path, 'r') as f:
             data = json.load(f)
@@ -100,7 +124,8 @@ class ConversationAnalyzer:
     def classify_topic_llm(self, conversation):
         """Classify topic using Claude API (if available)"""
         if not HAS_ANTHROPIC:
-            return self.classify_topic_keyword(conversation)
+            raise RuntimeError(
+                "--llm requires the anthropic package: pip install anthropic")
         
         # Extract conversation text
         text = str(conversation)[:2000]  # Limit for classification
@@ -121,8 +146,7 @@ Conversation: {text}"""
             )
             return message.content[0].text.strip()
         except Exception as e:
-            print(f"LLM classification failed: {e}, falling back to keywords")
-            return self.classify_topic_keyword(conversation)
+            raise RuntimeError(f"LLM classification failed: {e}") from e
 
     def extract_text(self, conversation):
         """Extract text content from a conversation for clustering"""
@@ -195,7 +219,7 @@ Conversation: {text}"""
         try:
             tfidf_matrix = vectorizer.fit_transform(valid_texts)
         except ValueError as e:
-            print(f"TF-IDF failed: {e}. Falling back to keyword classification.")
+            print(f"TF-IDF failed: {e}")
             return None
 
         print(f"Clustering into {n_clusters} groups...")
@@ -259,7 +283,14 @@ Conversation: {text}"""
                 if field in conversation and isinstance(conversation[field], list):
                     return len(conversation[field])
         return 1  # Default if structure unclear
-    
+
+    def count_prompts(self, conversation):
+        """Count the user's own messages in a conversation"""
+        if isinstance(conversation, dict) and isinstance(conversation.get('chat_messages'), list):
+            return sum(1 for m in conversation['chat_messages']
+                       if isinstance(m, dict) and m.get('sender') == 'human')
+        return (self.count_messages(conversation) + 1) // 2
+
     def analyze(self, use_llm=False, n_clusters=15):
         """Run full analysis
 
@@ -273,9 +304,10 @@ Conversation: {text}"""
         cluster_topics = None
         if n_clusters is not None:
             cluster_topics = self.classify_topics_clustering(n_clusters)
-            print(cluster_topics)
             if cluster_topics is None:
-                print("Clustering failed, using keyword classification instead.")
+                raise RuntimeError(
+                    "Topic clustering unavailable. Install its dependency with: "
+                    "pip install -r requirements.txt")
 
         for i, conv in enumerate(self.conversations):
             if i % 10 == 0:
@@ -505,7 +537,9 @@ Conversation: {text}"""
                     'title': self.extract_title(conv),
                     'topic': topic,
                     'date': conv_date.strftime('%Y-%m-%d') if conv_date else None,
+                    'timestamp': conv_date.isoformat() if conv_date else None,
                     'messages': self.count_messages(conv),
+                    'prompts': self.count_prompts(conv),
                     'size': conv_size,
                     'estimated_tokens': conv_tokens,
                     'estimated_cost': self.estimate_cost(conv_tokens),
@@ -537,8 +571,9 @@ def main():
     import argparse
     
     parser = argparse.ArgumentParser(description='Analyze Claude conversations')
-    parser.add_argument('--path', default='~/.claude/conversations/conversations.json',
-                       help='Path to conversations.json')
+    parser.add_argument('--path', default=os.path.dirname(os.path.abspath(__file__)),
+                       help='claude.ai export directory holding the export zips, '
+                            'or a path to conversations.json (default: this folder)')
     parser.add_argument('--output', default='conversation_data.json',
                        help='Output JSON file for visualization')
     parser.add_argument('--llm', action='store_true',
@@ -562,7 +597,7 @@ def main():
         
         if args.visualize:
             from dashboard_generator import generate_dashboard
-            generate_dashboard(data_path)
+            generate_dashboard(chat_path=data_path)
         
     except Exception as e:
         print(f"Error: {e}")

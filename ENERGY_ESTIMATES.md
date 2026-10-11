@@ -90,6 +90,7 @@ The dashboard displays energy consumption in relatable terms by converting Watt-
 
 | Equivalent | Wh per unit | Calculation | Source |
 |------------|-------------|-------------|--------|
+| Google search | 0.3 Wh | `energy_wh / 0.3` | Google's 2009 per-search figure (googleblog.blogspot.com/2009/01/powering-google-search.html); likely lower today, but Google hasn't published a newer number |
 | Smartphone charge | 12 Wh | `energy_wh / 12` | Typical smartphone battery: 10-15 Wh |
 | 100W grow light | 100 Wh/hour | `energy_wh / 100` | Direct wattage rating |
 

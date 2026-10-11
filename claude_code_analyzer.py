@@ -23,6 +23,9 @@ ENERGY_ESTIMATES = {
 
 DEFAULT_PUE = 1.4  # Data center overhead multiplier
 
+# Project name for token totals recovered from stats-cache.json, which has no project info
+BACKFILL_PROJECT = 'Unattributed (stats cache)'
+
 
 def get_model_tier(model_name):
     """Extract model tier from model name string."""
@@ -49,10 +52,30 @@ def estimate_energy(tokens, model_tier='default', include_pue=True):
     return wh
 
 
+# .claude folders copied over from other computers, one per subdirectory
+DEFAULT_EXTRA_CLAUDE_ROOT = Path(__file__).resolve().parent / 'claude folders'
+
+
+def default_extra_claude_dirs():
+    """Find .claude folders collected from other machines next to this script."""
+    if not DEFAULT_EXTRA_CLAUDE_ROOT.is_dir():
+        return []
+    return sorted(d for d in DEFAULT_EXTRA_CLAUDE_ROOT.iterdir() if d.is_dir())
+
+
 class ClaudeCodeAnalyzer:
-    def __init__(self, projects_dir='~/Projects', claude_projects_dir='~/.claude/projects'):
+    def __init__(self, projects_dir='~/Projects', claude_projects_dir='~/.claude/projects',
+                 extra_claude_dirs=None):
         self.projects_dir = Path(os.path.expanduser(projects_dir))
         self.claude_projects_dir = Path(os.path.expanduser(claude_projects_dir))
+        # Accept either a copied .claude folder or its projects/ subfolder
+        self.extra_projects_dirs = []
+        for d in extra_claude_dirs or []:
+            d = Path(os.path.expanduser(str(d)))
+            if (d / 'projects').is_dir():
+                d = d / 'projects'
+            if d.is_dir():
+                self.extra_projects_dirs.append(d)
         self.projects = {}  # project_name -> project data
         self.conversations = []  # all conversations with metadata
 
@@ -62,46 +85,74 @@ class ClaudeCodeAnalyzer:
         return str(path).replace('/', '-').replace('_', '-').replace(' ', '-')
 
     def find_projects_with_claude_code(self):
-        """Find projects in ~/Projects that have Claude Code data."""
-        projects_found = []
+        """Find projects in ~/Projects that have Claude Code data.
 
-        if not self.claude_projects_dir.exists():
+        Also picks up project folders from .claude directories copied from other
+        machines, whose names don't match local paths (different username or
+        layout), by reading the working directory recorded in their sessions.
+        """
+        projects = {}  # project_name -> project info
+
+        def add(name, path, claude_dir):
+            info = projects.setdefault(name, {'name': name, 'path': path, 'claude_dirs': []})
+            info['claude_dirs'].append(claude_dir)
+
+        if self.claude_projects_dir.exists():
+            # Get all claude project directories
+            claude_dirs = {d.name: d for d in self.claude_projects_dir.iterdir() if d.is_dir()}
+
+            # Check each project in ~/Projects and ~/Projects/Archive
+            search_dirs = [self.projects_dir]
+            archive_dir = self.projects_dir / 'Archive'
+            if archive_dir.exists():
+                search_dirs.append(archive_dir)
+
+            for search_dir in search_dirs:
+                if search_dir.exists():
+                    for project_path in search_dir.iterdir():
+                        if project_path.is_dir() and project_path.name != 'Archive':
+                            claude_dir_name = self.path_to_claude_dir_name(project_path)
+
+                            # For archived projects, also check original path (before moving to Archive)
+                            original_path = self.projects_dir / project_path.name
+                            original_claude_dir_name = self.path_to_claude_dir_name(original_path)
+
+                            if claude_dir_name in claude_dirs:
+                                add(project_path.name, project_path, claude_dirs[claude_dir_name])
+                            elif original_claude_dir_name in claude_dirs:
+                                add(project_path.name, project_path, claude_dirs[original_claude_dir_name])
+        else:
             print(f"Claude projects directory not found: {self.claude_projects_dir}")
-            return projects_found
 
-        # Get all claude project directories
-        claude_dirs = {d.name: d for d in self.claude_projects_dir.iterdir() if d.is_dir()}
+        for extra_dir in self.extra_projects_dirs:
+            for claude_dir in sorted(d for d in extra_dir.iterdir() if d.is_dir()):
+                name = self.project_name_from_sessions(claude_dir)
+                if name:
+                    add(name, self.projects_dir / name, claude_dir)
 
-        # Check each project in ~/Projects and ~/Projects/Archive
-        search_dirs = [self.projects_dir]
-        archive_dir = self.projects_dir / 'Archive'
-        if archive_dir.exists():
-            search_dirs.append(archive_dir)
+        return list(projects.values())
 
-        for search_dir in search_dirs:
-            if search_dir.exists():
-                for project_path in search_dir.iterdir():
-                    if project_path.is_dir() and project_path.name != 'Archive':
-                        claude_dir_name = self.path_to_claude_dir_name(project_path)
+    def project_name_from_sessions(self, claude_dir):
+        """Get the ~/Projects/<name> folder a Claude project dir's sessions ran in.
 
-                        # For archived projects, also check original path (before moving to Archive)
-                        original_path = self.projects_dir / project_path.name
-                        original_claude_dir_name = self.path_to_claude_dir_name(original_path)
-
-                        matched_dir = None
-                        if claude_dir_name in claude_dirs:
-                            matched_dir = claude_dirs[claude_dir_name]
-                        elif original_claude_dir_name in claude_dirs:
-                            matched_dir = claude_dirs[original_claude_dir_name]
-
-                        if matched_dir:
-                            projects_found.append({
-                                'name': project_path.name,
-                                'path': project_path,
-                                'claude_dir': matched_dir
-                            })
-
-        return projects_found
+        Sessions can start elsewhere (e.g. a desktop-app scratch workspace) and
+        cd in later, so the first cwd under a Projects dir wins. Returns None if
+        no session ever ran inside one.
+        """
+        for jsonl_file in claude_dir.glob('*.jsonl'):
+            with open(jsonl_file, 'r', errors='replace') as f:
+                for line in f:
+                    try:
+                        cwd = json.loads(line).get('cwd')
+                    except (json.JSONDecodeError, AttributeError):
+                        continue
+                    if cwd:
+                        parts = [p for p in Path(cwd).parts if p != 'Archive']
+                        if 'Projects' in parts:
+                            i = parts.index('Projects')
+                            if i + 1 < len(parts):
+                                return parts[i + 1]
+        return None
 
     def parse_jsonl_file(self, jsonl_path):
         """Parse a JSONL file and extract message data."""
@@ -131,6 +182,7 @@ class ClaudeCodeAnalyzer:
         assistant_messages = []
         timestamps = []
         models_used = set()
+        counted_msg_ids = set()
         summary = None
         first_user_prompt = None
 
@@ -164,7 +216,14 @@ class ClaudeCodeAnalyzer:
                 if model:
                     models_used.add(model)
 
+                # Claude Code logs one line per content block (thinking, text,
+                # tool use), each repeating the whole message's usage - count it once
+                msg_id = assistant_msg.get('id')
                 usage = assistant_msg.get('usage', {})
+                if msg_id and msg_id in counted_msg_ids:
+                    usage = None
+                elif msg_id:
+                    counted_msg_ids.add(msg_id)
                 if usage:
                     total_input_tokens += usage.get('input_tokens', 0)
                     total_output_tokens += usage.get('output_tokens', 0)
@@ -245,33 +304,42 @@ class ClaudeCodeAnalyzer:
     def analyze_project(self, project_info):
         """Analyze all conversations for a single project."""
         project_name = project_info['name']
-        claude_dir = project_info['claude_dir']
 
         conversations = []
+        seen_sessions = set()  # the same session may exist in more than one copied folder
 
-        # Find all JSONL files (main conversations, not subagents)
-        for jsonl_file in claude_dir.glob('*.jsonl'):
-            session_id = jsonl_file.stem
-            messages = self.parse_jsonl_file(jsonl_file)
+        for claude_dir in project_info['claude_dirs']:
+            # Find all JSONL files (main conversations, not subagents)
+            for jsonl_file in claude_dir.glob('*.jsonl'):
+                session_id = jsonl_file.stem
+                if session_id in seen_sessions:
+                    continue
+                seen_sessions.add(session_id)
+                messages = self.parse_jsonl_file(jsonl_file)
 
-            if messages:
-                conv_data = self.extract_conversation_data(messages, session_id, project_name)
-                if conv_data['tokens']['total'] > 0:  # Only include if has token data
-                    conversations.append(conv_data)
+                if messages:
+                    conv_data = self.extract_conversation_data(messages, session_id, project_name)
+                    conv_data['source_dir'] = str(claude_dir.parent)
+                    if conv_data['tokens']['total'] > 0:  # Only include if has token data
+                        conversations.append(conv_data)
 
-        # Also check for subagent conversations
-        for subdir in claude_dir.iterdir():
-            if subdir.is_dir():
-                subagents_dir = subdir / 'subagents'
-                if subagents_dir.exists():
-                    for jsonl_file in subagents_dir.glob('*.jsonl'):
-                        session_id = f"{subdir.name}/subagent/{jsonl_file.stem}"
-                        messages = self.parse_jsonl_file(jsonl_file)
-                        if messages:
-                            conv_data = self.extract_conversation_data(messages, session_id, project_name)
-                            conv_data['is_subagent'] = True
-                            if conv_data['tokens']['total'] > 0:
-                                conversations.append(conv_data)
+            # Also check for subagent conversations
+            for subdir in claude_dir.iterdir():
+                if subdir.is_dir():
+                    subagents_dir = subdir / 'subagents'
+                    if subagents_dir.exists():
+                        for jsonl_file in subagents_dir.glob('*.jsonl'):
+                            session_id = f"{subdir.name}/subagent/{jsonl_file.stem}"
+                            if session_id in seen_sessions:
+                                continue
+                            seen_sessions.add(session_id)
+                            messages = self.parse_jsonl_file(jsonl_file)
+                            if messages:
+                                conv_data = self.extract_conversation_data(messages, session_id, project_name)
+                                conv_data['is_subagent'] = True
+                                conv_data['source_dir'] = str(claude_dir.parent)
+                                if conv_data['tokens']['total'] > 0:
+                                    conversations.append(conv_data)
 
         return conversations
 
@@ -329,8 +397,142 @@ class ClaudeCodeAnalyzer:
 
             print(f"  {project_name}: {len(conversations)} sessions, {total_tokens:,} tokens")
 
+        self.add_stats_cache_backfill()
+
         print(f"\nTotal: {len(self.conversations)} conversations across {len(self.projects)} projects")
         return self.projects
+
+    def add_stats_cache_backfill(self):
+        """Recover token usage for days whose transcripts were deleted by cleanup.
+
+        Claude Code's stats-cache.json keeps daily token totals per model, added up
+        from transcripts while they still existed. For each .claude folder, days
+        before its earliest surviving transcript are added as one entry per day
+        under BACKFILL_PROJECT. Later days are skipped: those transcripts are
+        already counted, or the cache's partial view of them would double count.
+
+        The cache only has daily input+output totals per model. The input/output
+        and cache read/write split is apportioned from that model's lifetime
+        totals in the same file.
+        """
+        earliest = {}  # projects dir -> earliest transcript date read from it
+        for conv in self.conversations:
+            src, date = conv.get('source_dir'), conv.get('date')
+            if src and date and (src not in earliest or date < earliest[src]):
+                earliest[src] = date
+
+        backfill = []
+        for projects_dir in [self.claude_projects_dir] + self.extra_projects_dirs:
+            claude_root = projects_dir.parent
+            stats_path = claude_root / 'stats-cache.json'
+            if not stats_path.exists():
+                continue
+            try:
+                with open(stats_path) as f:
+                    stats = json.load(f)
+            except (OSError, json.JSONDecodeError) as e:
+                print(f"Skipping {stats_path}: {e}")
+                continue
+
+            cutoff = earliest.get(str(projects_dir))
+            machine = 'this computer' if projects_dir == self.claude_projects_dir else claude_root.name
+            sessions_by_day = {a['date']: a.get('sessionCount', 0)
+                               for a in stats.get('dailyActivity', [])}
+            prompts_by_day = self.count_history_prompts(claude_root / 'history.jsonl')
+
+            # Per model: how each input+output token splits into the four token kinds
+            fields = [('input', 'inputTokens'), ('output', 'outputTokens'),
+                      ('cache_read', 'cacheReadInputTokens'),
+                      ('cache_creation', 'cacheCreationInputTokens')]
+            ratios = {}
+            totals = dict.fromkeys([k for k, _ in fields], 0)
+            for model, usage in stats.get('modelUsage', {}).items():
+                io = usage.get('inputTokens', 0) + usage.get('outputTokens', 0)
+                if io:
+                    ratios[model] = {k: usage.get(f, 0) / io for k, f in fields}
+                    for k, f in fields:
+                        totals[k] += usage.get(f, 0)
+            io_total = totals['input'] + totals['output']
+            fallback = ({k: v / io_total for k, v in totals.items()} if io_total
+                        else {'input': 0.5, 'output': 0.5, 'cache_read': 0, 'cache_creation': 0})
+
+            for day in stats.get('dailyModelTokens', []):
+                date = day.get('date')
+                by_model = day.get('tokensByModel', {})
+                if not date or not by_model or (cutoff and date >= cutoff):
+                    continue
+
+                tokens = dict.fromkeys(totals, 0.0)
+                energy = cost = 0.0
+                for model, n in by_model.items():
+                    r = ratios.get(model, fallback)
+                    for k in tokens:
+                        tokens[k] += n * r[k]
+                    tier = get_model_tier(model)
+                    energy += estimate_energy(n, tier)
+                    cost += self.estimate_cost(n * r['input'], n * r['output'], tier)
+                tokens = {k: round(v) for k, v in tokens.items()}
+                tokens['total'] = sum(by_model.values())
+
+                primary_model = max(by_model, key=by_model.get)
+                sessions = sessions_by_day.get(date, 0)
+                backfill.append({
+                    'session_id': f"stats-cache/{machine}/{date}",
+                    'project': BACKFILL_PROJECT,
+                    'title': f"{machine}: daily total, {sessions} session{'s' if sessions != 1 else ''} (transcripts deleted)",
+                    'summary': None,
+                    'first_prompt': None,
+                    'start_date': date,
+                    'end_date': date,
+                    'date': date,
+                    'user_message_count': prompts_by_day.get(date, 0),
+                    'assistant_message_count': 0,
+                    'total_turns': prompts_by_day.get(date, 0),
+                    'models_used': list(by_model),
+                    'primary_model': primary_model,
+                    'model_tier': get_model_tier(primary_model),
+                    'tokens': tokens,
+                    'energy_wh': energy,
+                    'cost_estimate': cost,
+                    'is_backfill': True,
+                    'session_count': sessions,
+                })
+
+        if not backfill:
+            return
+
+        dates = [c['date'] for c in backfill]
+        self.projects[BACKFILL_PROJECT] = {
+            'name': BACKFILL_PROJECT,
+            'path': None,
+            'conversation_count': sum(c['session_count'] for c in backfill),
+            'total_turns': sum(c['total_turns'] for c in backfill),
+            'tokens': {k: sum(c['tokens'][k] for c in backfill)
+                       for k in ['input', 'output', 'cache_read', 'cache_creation', 'total']},
+            'energy_wh': sum(c['energy_wh'] for c in backfill),
+            'cost_estimate': sum(c['cost_estimate'] for c in backfill),
+            'first_date': min(dates),
+            'last_date': max(dates),
+            'conversations': backfill,
+        }
+        self.conversations.extend(backfill)
+        proj = self.projects[BACKFILL_PROJECT]
+        print(f"  {BACKFILL_PROJECT}: {proj['conversation_count']} sessions over {len(backfill)} days "
+              f"({proj['first_date']} to {proj['last_date']}), {proj['tokens']['total']:,} tokens")
+
+    def count_history_prompts(self, history_path):
+        """Count prompts per day from a .claude/history.jsonl, which outlives transcripts."""
+        counts = defaultdict(int)
+        if not history_path.exists():
+            return counts
+        with open(history_path, errors='replace') as f:
+            for line in f:
+                try:
+                    ts = json.loads(line)['timestamp']
+                except (json.JSONDecodeError, KeyError, TypeError):
+                    continue
+                counts[datetime.fromtimestamp(ts / 1000).strftime('%Y-%m-%d')] += 1
+        return counts
 
     def generate_report(self):
         """Print a text summary report."""
@@ -379,7 +581,7 @@ class ClaudeCodeAnalyzer:
     def get_top_token_conversations(self, n=10):
         """Get the conversations that consumed the most tokens."""
         sorted_convs = sorted(
-            self.conversations,
+            (c for c in self.conversations if not c.get('is_backfill')),
             key=lambda x: x['tokens']['total'],
             reverse=True
         )
@@ -402,7 +604,7 @@ class ClaudeCodeAnalyzer:
         output_data = {
             'summary': {
                 'total_projects': len(self.projects),
-                'total_conversations': len(self.conversations),
+                'total_conversations': sum(p['conversation_count'] for p in self.projects.values()),
                 'total_turns': sum(p['total_turns'] for p in self.projects.values()),
                 'tokens': {
                     'input': total_input,
@@ -440,13 +642,16 @@ class ClaudeCodeAnalyzer:
                 'project': conv['project'],
                 'title': conv['title'],
                 'date': conv['date'],
+                'timestamp': None if conv.get('is_backfill') else conv['start_date'],
                 'turns': conv['total_turns'],
                 'model_tier': conv['model_tier'],
                 'primary_model': conv['primary_model'],
                 'tokens': conv['tokens'],
                 'energy_wh': conv['energy_wh'],
                 'cost_estimate': conv['cost_estimate'],
-                'is_subagent': conv.get('is_subagent', False)
+                'is_subagent': conv.get('is_subagent', False),
+                'is_backfill': conv.get('is_backfill', False),
+                'session_count': conv.get('session_count', 1)
             })
 
         output_data['conversations'].sort(
@@ -486,11 +691,17 @@ def main():
                        help='Output JSON file for visualization')
     parser.add_argument('--visualize', action='store_true',
                        help='Generate HTML dashboard')
+    parser.add_argument('--extra-claude-dir', action='append', dest='extra_claude_dirs',
+                       help='A .claude folder copied from another computer (repeatable; '
+                            'default: every folder in "claude folders/" next to this script)')
 
     args = parser.parse_args()
 
     try:
-        analyzer = ClaudeCodeAnalyzer(projects_dir=args.projects_dir)
+        extra_dirs = args.extra_claude_dirs
+        if extra_dirs is None:
+            extra_dirs = default_extra_claude_dirs()
+        analyzer = ClaudeCodeAnalyzer(projects_dir=args.projects_dir, extra_claude_dirs=extra_dirs)
         analyzer.analyze()
         analyzer.generate_report()
 
@@ -498,8 +709,8 @@ def main():
         data_path = analyzer.save_json_data(args.output)
 
         if args.visualize and data_path:
-            from claude_code_dashboard import generate_claude_code_dashboard
-            generate_claude_code_dashboard(data_path)
+            from dashboard_generator import generate_dashboard
+            generate_dashboard(code_path=data_path)
 
     except Exception as e:
         print(f"Error: {e}")

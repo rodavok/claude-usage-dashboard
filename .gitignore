@@ -10,3 +10,12 @@ __pycache__/*
 conversations.json
 projects.json
 users.json
+*.zip
+manifest-*.json
+export_*/
+login_history.json
+*.bak-*
+claude folders/
+previous_exports/
+.claude/settings.local.json
+*.bundle
